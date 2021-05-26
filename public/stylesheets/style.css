@@ -1,0 +1,342 @@
+body {
+    margin-bottom: 0;
+}
+
+*:not(.lookup, i, #city, .notification-bar .text, .notification-bar .title, .flex-temp, .temp) {
+    overflow: hidden;
+    text-shadow: 2px 1.5px 2px #e1e4eb;
+}
+
+.all {
+    background: url('../images/bg.jpg');
+    background-size: cover;
+    height: 100vh;
+}
+
+.main-container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+/*  Flex holding container */
+
+.grid-box {
+    display: grid;
+    grid-template-columns: [first] 9fr [second] 5fr;
+    justify-items: right;
+    align-items: center;
+    
+
+}
+
+/* Search bar styling */ 
+
+.searchbar {
+    padding: 2em 1em;
+}
+
+.searchbar > label {
+    font-size: 1.7em;
+    font-weight: 650;
+}
+
+.searchbar > input {
+    background-image: linear-gradient(90deg,#b8c6db, #f5f7f8); /*(90deg, #a36a, #d12B);*/
+    -webkit-box-shadow: 0px 0px 10px 10px rgba(184, 198, 219, .45); 
+    box-shadow: 0px 0px 10px 10px rgba(184, 198, 219, .45);
+    font-size: 1rem;
+}
+
+.searchbar > i {
+    /*background: linear-gradient(135deg, #b8c6db, #ffffff); */
+    font-size: 1.1em;
+    margin-left: .5em;
+}
+
+.searchbar > .lookup:hover {
+    /*background: linear-gradient(135deg, #91A6FFcc, #b8c6db);*/
+    color: rgb(40, 224, 138);
+    box-shadow: 0px 0px 16px 16px rgba(31, 175, 219, 0.65);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+
+/* Date and timing stuff */
+
+.update-time {
+    /*position: absolute; left: 80%; top: 10%; */
+    font-size: 1.3em;
+    justify-self: right;
+    margin-right: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-bottom: solid .3em rgba(255, 255, 255, 0.2);
+}
+
+.update-time .date, .time {
+    font-size: 1.25rem;
+    color:#2c2d30;
+    font-weight: 600;
+    margin: .8em;
+    font-weight: 600;
+}
+
+
+
+
+
+/* Results display bar */
+
+.weather-container  {
+    /*border: .4em solid #ea4a;*/
+    width: 25%;
+    box-shadow: .3em .3em .5em rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    background:  rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    border-top: .4em solid rgba(255, 255, 255, 0.5);
+    border-left: .4em solid rgba(255, 255, 255, 0.5);
+    padding: 1.3em;
+    margin: 1.5em;
+    display: grid;
+    grid-template-columns: 3fr[city] 1fr[info] 1fr[temp];
+    grid-template-rows: 1fr 1.3fr;
+    row-gap: 1em;
+   /* backdrop-filter: blur(5px); */
+}
+
+
+
+.weather-container:hover {
+    cursor: pointer;
+}
+
+.weather-container:hover .flex-temp,
+.weather-container:hover .city
+/*
+.weather-container:focus .flex-temp,
+.weather-container:focus .city,
+.weather-container:active .flex-temp,
+.weather-container:active .city */
+{
+    
+    transform: translateY(2.3em);
+}
+
+
+.weather-container:hover .flex-weather, 
+.weather-container:focus .flex-weather,
+.weather-container:active .flex-weather
+{
+    transform: translateY(5em);
+}
+
+
+.weather-container > .city {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.weather-container > .city > .city-name {
+    font-size: 2em;
+    font-weight: 550;
+    color: rgb(0, 0, 0);
+    margin-right: .2em;
+}
+
+.weather-container > .icon {
+    margin:0;
+    pointer-events: none;
+}
+
+.weather-container > .flex-temp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.weather-container > .flex-temp > .temp {
+    font-size: 1.8em;
+    margin:0;
+}
+
+.weather-container > .flex-weather {
+    grid-column-start: 1;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.weather-container > .flex-weather > .weather {
+    font-size: 1.8em; 
+    align-self: center;
+    justify-self: center;
+}
+
+/* Some animations for fun */
+
+.progress-bar {
+    margin: .9em 2em;
+    width: 80%;
+    height: 3em;
+    border: .2em solid #666;
+    background: #888;
+}
+
+.progress-bar > .progress {
+    height: 100%;
+    width: 0;
+    background: #4b5;
+    float: left;
+}
+
+/* NOTIFICATION PANEL ON THE BOTTOM RIGHT */
+
+.notification-bar {
+    visibility: hidden;
+    position: sticky;
+    left: 90%;
+    bottom: 15%;
+    border: #0000 solid .2em;
+    border-radius: 7px;
+    max-width: 20%;
+    margin: .3em;
+}
+
+.notification-bar .title {
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 330%;
+    text-shadow: none;
+}
+
+.notification-bar .title i {
+    font-size: .6em;
+    color:rgba(0, 0, 0, .8)
+}
+
+.notification-bar .text {
+    margin: .9em;
+    text-align: center;
+    font-size: 1em;
+    text-shadow: none;
+}
+
+.danger {
+    background: #e74c34bb;
+}
+
+.warning {
+    background: #e67e22bb;
+}
+
+.success {
+    background: #2ecc71bb;
+}
+
+
+/* Mobile responsive design stuff */
+
+@media screen and (orientation: landscape) and (min-width: 500px) and (max-width: 1000px) /* screen-reverse state */
+{
+    *:not(.grid-box, .lookup, i, #city, .notification-bar .text, .notification-bar .title, .weather-container, .flex-temp, .temp, .flex-weather, .weather){
+        overflow: auto; 
+    }
+
+    .grid-box {
+        grid-template-columns:  [first] 6fr [second] 5fr;
+    }
+
+    .update-time {
+        font-size: 1em;
+    }
+
+    .searchbar > label {
+        font-size: 1.3em;
+        font-weight: 650;
+    }
+
+    .update-time .date, .time {  
+        margin: .2em;
+    }
+
+    .weather-container{
+        width: 40%;
+        padding: .5em;
+        margin: .5em;
+        font-size: .75rem;
+    }
+
+    .notification-bar {
+        left: 95%;
+        bottom: 24%;
+        max-width: 32%;
+    }
+
+
+    /* trzeba jeszcze wdrożyć :hovery i niektóre animacje z nimi związanymi */
+
+}
+
+@media screen and (orientation: portrait) /* normal state */
+{
+    *:not(.grid-box, .lookup, i, #city, .notification-bar .text, .notification-bar .title, .weather-container, .flex-temp, .temp, .flex-weather, .weather) {
+        overflow: auto; 
+    }
+
+    .grid-box {
+        grid-template-columns: [first] 1fr;
+        grid-template-rows: [r1] 1fr [r2] 1fr;
+    }
+
+    .searchbar {
+        grid-row: 2;
+        padding: .15em .3em; margin: 0;
+        justify-self: center;
+    }
+
+    .searchbar > label {
+        font-size: 1.3em;
+    }
+
+    .update-time {
+        grid-row: 1;
+        padding:0; margin: .7em;
+        justify-self: center;
+    }
+
+    .update-time .date, .time {
+        font-size: .7em;
+    }
+
+    .weather-container  {
+        width: 80%;
+        padding: .5em;
+        margin: .5em;
+        font-size: .8rem;
+        row-gap: 1em;
+    }
+
+    .notification-bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        max-height: 6em;
+        max-width: 100%;
+    }
+
+}

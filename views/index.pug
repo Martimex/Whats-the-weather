@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+    //<link rel='stylesheet' href='webfonts/css/fontello.css'>
+    div(class='all')
+
+      div(class='grid-box')
+        div(class='searchbar')
+            label(for='city') #[strong Your city:]
+            input(type="text" id='city' placeholder="Type a city name...")
+            i(class='lookup icon-search' type='submit')              
+
+        div(class='update-time') #[strong Updated:]
+            p(class='date')
+            p(class='time') 
+
+    div(class='notification-bar danger')
+      p(class='title') 
+        i(class='icon-attention') #[strong Warning]
+      div(class='text')
+
+    //<script src='anime/lib/anime.min.js'></script>
+    //<script src='addons.js'></script>
+    //<script src='script.js'></script>
+    //<script src='animations.js'></script>

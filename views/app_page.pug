@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    div(class='all')
+
+      div(class='grid-box')
+        div(class='searchbar')
+          label(for='city') #[strong Your city:]
+          input(type="text" id='city' placeholder="Type a city name...")
+          i(class='lookup icon-search' type='submit')              
+
+        div(class='update-time') #[strong Updated:]
+          p(class='date')
+          p(class='time')
+
+
+
+    div(class='notification-bar danger')
+      p(class='title') 
+        i(class='icon-attention') Warning
+      div(class='text')
+
+    script(src='/libraries/anime/lib/anime.min.js')
+    script(src='/javascripts/addons.js')
+    script(src='/javascripts/script.js')
+    script(src='/javascripts/animations.js')
