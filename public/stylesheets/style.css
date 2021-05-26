@@ -96,11 +96,13 @@ body {
 /* Results display bar */
 
 .weather-box{
-  
+  width: 30%;
+  padding: 1rem;
 }
 
 .weather-box a {
     text-decoration: none;
+    color: black;
 
 }
 
