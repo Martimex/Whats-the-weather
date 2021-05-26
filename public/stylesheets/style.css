@@ -119,9 +119,9 @@ body {
     cursor: pointer;
 }
 
-.weather-container:hover .flex-temp,
-.weather-container:hover .city
+.weather-container:hover .flex-temp
 /*
+.weather-container:hover .city
 .weather-container:focus .flex-temp,
 .weather-container:focus .city,
 .weather-container:active .flex-temp,
@@ -129,6 +129,10 @@ body {
 {
     
     transform: translateY(2.3em);
+}
+
+.weather-container:hover .city {
+    transform: translateY(1.2em);
 }
 
 
@@ -145,9 +149,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: 0.5s;
-}
 
-.weather-container > .city > .city-name {
     font-size: 2em;
     font-weight: 550;
     color: rgb(0, 0, 0);

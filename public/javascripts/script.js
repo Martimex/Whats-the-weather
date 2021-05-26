@@ -97,17 +97,18 @@ function last() {
                 
                 let main = document.querySelector(`.main-container > section:nth-child(${i+1})`);
 
-                let name = document.querySelector(`.main-container > section:nth-child(${i+1}) > div`);
                 //console.log(name);
-                let el = document.createElement('div');
-                    el.classList.add('city-name');
-                el.textContent = chosencity;
-                name.appendChild(el);
+                //let el = document.createElement('div');
+                //    el.classList.add('city-name');
+               // el.textContent = chosencity;
+               // name.appendChild(el);
 
                 console.log(iconCode);
             
                 main.querySelector('.icon')
                     .setAttribute('src', icon);
+                        main.querySelector('.city')
+                            .textContent = chosencity;
                         main.querySelector('.weather')
                             .textContent = weather;
                         main.querySelector('.temp')
@@ -242,7 +243,7 @@ function checkCity() {
                 //cities.unshift(input_value);
                 //console.log(cities);
 
-                first();
+                //first();
                 last();
 
                 let main = document.querySelector(`.main-container > section:nth-child(1)`);
@@ -254,6 +255,7 @@ function checkCity() {
             
                 main.querySelector('.icon')
                     .setAttribute('src', icon);
+                       // main.querySelector()
                         main.querySelector('.weather')
                             .textContent = weather;
                         main.querySelector('.temp')
