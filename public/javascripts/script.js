@@ -35,9 +35,9 @@ function first() {
 
         maincontainer.appendChild(section);
 
-        //let a = document.createElement('a');
-        //    a.setAttribute('href', './details');
-        //section.appendChild(a);
+        let a = document.createElement('a');
+           a.setAttribute('href', './details');
+        section.appendChild(a);
 
 
         let city = document.createElement('div');
