@@ -1,6 +1,6 @@
 body {
     margin-bottom: 0;
-}
+} 
 
 *:not(.lookup, i, #city, .notification-bar .text, .notification-bar .title, .flex-temp, .temp) {
     overflow: hidden;
@@ -95,17 +95,26 @@ body {
 
 /* Results display bar */
 
+.weather-box{
+  
+}
+
+.weather-box a {
+    text-decoration: none;
+
+}
+
 .weather-container  {
     /*border: .4em solid #ea4a;*/
-    width: 25%;
+  
     box-shadow: .3em .3em .5em rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     background:  rgba(255, 255, 255, 0.1);
     overflow: hidden;
+    padding: 1em;
+    margin: 1.4em;
     border-top: .4em solid rgba(255, 255, 255, 0.5);
     border-left: .4em solid rgba(255, 255, 255, 0.5);
-    padding: 1.3em;
-    margin: 1.5em;
     display: grid;
     grid-template-columns: 3fr[city] 1fr[info] 1fr[temp];
     grid-template-rows: 1fr 1.3fr;

@@ -95,7 +95,7 @@ function last() {
                 let iconCode = data.weather[0].icon;
                 let result = '';
                 
-                let main = document.querySelector(`.main-container > section:nth-child(${i+1})`);
+                let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
 
                 //console.log(name);
                 //let el = document.createElement('div');
@@ -248,10 +248,10 @@ function checkCity() {
 
                 let main = document.querySelector(`.main-container > section:nth-child(1)`);
 
-                let name = document.querySelector(`.main-container > section:nth-child(1) > div > div`);
+               // let name = document.querySelector(`.main-container > section:nth-child(1) > div > div`);
                 //console.log(name);
 
-                name.textContent = input_value;
+                //name.textContent = input_value;
             
                 main.querySelector('.icon')
                     .setAttribute('src', icon);
