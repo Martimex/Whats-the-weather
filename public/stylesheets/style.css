@@ -97,7 +97,7 @@ body {
 
 .weather-box{
   width: 30%;
-  padding: 1rem;
+  padding: .5rem;
 }
 
 .weather-box a {
@@ -264,7 +264,7 @@ body {
 
 /* Mobile responsive design stuff */
 
-@media screen and (orientation: landscape) and (min-width: 500px) and (max-width: 1000px) /* screen-reverse state */
+@media screen and (orientation: landscape) and (min-width: 500px) and (max-width: 1100px) /* screen-reverse state */
 {
     *:not(.grid-box, .lookup, i, #city, .notification-bar .text, .notification-bar .title, .weather-container, .flex-temp, .temp, .flex-weather, .weather){
         overflow: auto; 
@@ -287,10 +287,21 @@ body {
         margin: .2em;
     }
 
+    .weather-box{
+        width: 30%;
+        padding: .5rem;
+    }
+      
+      .weather-box a {
+          text-decoration: none;
+          color: black;
+      
+    }
+
     .weather-container{
-        width: 40%;
+       
         padding: .5em;
-        margin: .5em;
+        margin: 1.5em;
         font-size: .75rem;
     }
 
@@ -334,6 +345,17 @@ body {
 
     .update-time .date, .time {
         font-size: .7em;
+    }
+
+    .weather-box {
+        width: 30%;
+        padding: .5rem;
+    }
+      
+      .weather-box a {
+          text-decoration: none;
+          color: black;
+      
     }
 
     .weather-container  {
