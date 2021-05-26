@@ -36,7 +36,8 @@ function first() {
         maincontainer.appendChild(section);
 
         let a = document.createElement('a');
-           a.setAttribute('href', './details');
+           //a.setAttribute('href', 'cities/details');
+           a.classList.add('link');
         section.appendChild(a);
 
 
@@ -169,7 +170,7 @@ function last() {
 
 }
 
-first();
+//first();
 randomize(queryArray);  //-> to będzie losować początkowe miasta po każdorazowym odświeżeniu strony
 last();
 
@@ -335,4 +336,3 @@ function randomize(queryArray) {
     //console.log(queryArray);
     return queryArray;
 }
-
