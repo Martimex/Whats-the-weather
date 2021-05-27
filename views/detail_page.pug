@@ -1,0 +1,42 @@
+extends layout_detailed
+
+block content
+    div(class='all')
+
+        div(class='city-name')
+
+        div(class='grid-container')
+
+        p(class='detailed-title') Detailed weather info
+        section(class='detailed-info')
+          div(id='catch')
+          div(class='legend-box')
+              div(class='legend-1') Date
+              div(class='legend-1') Weather
+              div(class='legend-1') Temperature
+              div(class='legend-1') Humidity
+              div(class='legend-1') Wind speed & degree
+              div(class='legend-1') Pressure
+
+          div(id='catched')
+          div(class='detail-box')
+
+            //-div(class='nextdate')
+            //-div(class='weather')
+            //-img(class='weather-icon')
+            //-div(class='temp-box')
+            //-div(class='temp')
+            //-div(class='temp-desc')
+            //-div(class='humidity')
+            //-div(class='wind')
+            //-div(class='speed')
+            //-div(class='degree')
+            //-div(class='pressure')
+        footer(class='footer') What's The Weather  &copy; Martimex, 2021
+          div(class='mobile-temporary-content') 
+        
+        <script src='/libraries/anime/lib/anime.min.js'></script>
+        <script src='/javascripts/script_detailed.js'></script>
+        <script src='/javascripts/animations_detailed.js'></script>
+    </body>
+    </html>
