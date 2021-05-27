@@ -1,0 +1,369 @@
+:root {
+    --day: #6ad5;  /*rgba(184, 192, 72, 0.4); or #6ad6*/
+    --night:  #75d5;/*rgba(62, 76, 201, 0.4); or #75d6*/ 
+}
+
+.all {
+    background: url('img/bg.jpg') rgba(0, 0, 0, 0.9);
+    background-size: cover;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Main span for city name */
+
+.city-name {
+    padding: .8em 1.4em;
+    font-size: 2.2em;
+    font-weight: 650;
+    letter-spacing: 130%;
+} 
+
+
+/* Long-term weather forecast box */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: [A] 1fr [B] 1fr [C] 1fr [D] 1fr [E] 1fr [F] 1fr [G] 1fr [H] 1fr [I] 1fr [J] 1fr;
+    grid-template-rows: [date]4fr [vis]20fr [temp]4fr; 
+    column-gap: 0;
+}
+
+.grid-container .date {
+    border: .2em solid #aaaa;
+    font-size: 1.2em;
+    text-align: center;
+    /*background: rgba(255,255,255, 0.1);*/
+    background: var(--day);
+    border-top: .3em solid var(--day);
+    border-left: .3em solid var(--day);
+    box-shadow: .3em .3em .5em rgba(256, 256, 256, 0.5);
+}
+
+/*.grid-container .date:nth-child(2n) {
+    background: var(--night);
+    border-top: .3em solid var(--night);
+    border-left: .3em solid var(--night);
+}
+*/
+
+.grid-container .visual {
+    background: rgba(255,255,255, 0.3);
+    padding-bottom: .4em;
+
+}
+
+/*
+.grid-container .visual:nth-child(2n) {
+    border-right: 0.32em solid #2222;
+}
+*/
+
+.grid-container .visual div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: .7em;
+    margin: 0 .8em;
+    border-radius: 4.2px;
+    /*background:  rgba(125, 35, 123, 0.6);*/
+}
+
+.grid-container .visual div img{
+    font-size: 3.6em;
+}
+
+.grid-container .visual div img:hover {
+    border-radius: 6px;
+    background-image: radial-gradient(rgba(172, 246, 227, 0.3), rgba(172, 246, 227, 0.3));
+}
+
+.grid-container .temper {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    font-size: 1.5em;
+    max-width: 3.5em;
+    padding: .4em .8em;
+    border: .1em solid #000;
+    background: rgba(255,255,255, 0.1);
+    border-top: .2em solid rgba(255, 255, 255, 0.5);
+    border-left: .2em solid rgba(255, 255, 255, 0.5);
+    box-shadow: .3em .3em .5em rgba(0, 0, 0, 0.5);
+
+}
+
+/*
+.grid-container .icon {
+   display: flex;
+   align-self: center;
+   justify-self: center; 
+}
+*/
+
+/* SO HERE WE HAVE THE LEGEND ITSELF  => AND WE WANT TO MAKE IT STICKY */
+.detailed-info .legend-box {
+
+   column-gap: .5em;
+   overflow: hidden;
+   visibility: visible;
+}
+
+.sticky {
+    position: fixed;
+    top:0;
+}
+
+
+.detailed-info .legend-box .legend-1 {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: .8em;
+    padding: .4em;
+    border: .1rem solid #000;
+    background: rgba(255,255,255, 0.1);
+    border-top: .2rem solid rgba(255, 255, 255, 0.5);
+    border-left: .2rem solid rgba(255, 255, 255, 0.5);
+    box-shadow: .5rem .5rem .8rem rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    font-style: italic;
+    color:#000000;
+    letter-spacing: .6px;
+    border-radius:  12px;
+    width: 80%;
+}
+
+
+/* HERE COMES THE DETAIL SECTION */
+
+.detailed-title {
+    font-size: 2rem;
+    margin: 1.8em;
+    font-weight: 600;
+}
+
+.detailed-info .detail-box, .legend-box {
+    display: grid;
+    padding:  0 4.2em;
+    grid-template-columns: repeat(6, 1fr); /* Może być 7, ale tylko gdy ogarnę jak obsłużyć mechanizm błędu dla deszczu */
+    justify-content: center;
+    /*border: .5em solid #333;*/
+    /*column-gap: .5em; */
+    row-gap: 1.3em;
+    font-size: 1.25em;
+    text-align: center;
+
+}
+
+.detailed-info .detail-box .nextdate, .nextdate ~ div {
+   /* background: var(--day); */
+    /*border: .2em solid var(--day); */
+    font-size: 1.4rem;
+    padding: .5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 15px;
+
+}
+
+.detailed-info .detail-box .nextdate ~ div div {
+    width:100%;
+}
+
+/* LASTLY, FOOTER*/
+
+.footer{
+    text-align: center;
+    margin-top: 3rem;
+    padding: .7rem;
+    font-size: 1.4em;
+    background: #88888844;
+}
+
+
+/* Mobile responsive design stuff */
+
+@media screen and (orientation: landscape) and (max-width: 900px) /* screen-reverse state */
+{
+
+    .city-name{
+        margin: .3em;
+    }
+
+    .grid-container{
+        grid-template-rows: [date]4fr [vis]8fr [temp]4fr;
+        grid-template-columns: [A] 19vw [B] 19vw [C] 19vw [D] 19vw [E] 19vw [F] 19vw [G] 19vw [H] 19vw [I] 19vw [J] 19vw;
+        margin: 0 0 0 2em;
+    }
+
+    .grid-container .visual div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: .3em;
+        margin: 0 .8em;
+        border-radius: 4.2px;
+    }
+
+    .grid-container .temper {
+        padding: .4em .6em;
+    }
+
+    .switch-btn-l, .switch-btn-r {
+        width: 7em;
+        height: 3em;
+        position: relative; left: 2%;
+        /* Button styling */
+        border-radius: 7px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        background-color: rgb(219, 172, 84);
+    }
+
+    .switch-btn-r {
+        position: relative; left: calc(98% - 7em);
+    }
+
+    .detailed-info .legend-box .legend-1 {
+        font-size: 1.4rem;
+        margin-bottom: .8em;
+        border: .1rem solid #000;
+        letter-spacing: .6px;
+        border-radius:  12px;
+
+    }
+
+    .detailed-info .detail-box, .legend-box {
+        padding:  0 1.2em;
+        grid-template-columns: repeat(6, 1fr); /* Może być 7, ale tylko gdy ogarnę jak obsłużyć mechanizm błędu dla deszczu */
+        justify-content: center;
+        row-gap: 1.3em;
+        font-size: 1.25em;
+    }
+}
+
+@media screen and (orientation: portrait) and (max-height: 900px) {
+
+    .city-name{
+        padding: .8rem;
+        padding-bottom: 2.8rem;
+    }
+
+    .grid-container{
+        grid-template-rows: [date]14% [vis]20% [temp]14%; 
+        grid-template-columns: [A] 19vw [B] 19vw [C] 19vw [D] 19vw [E] 19vw [F] 19vw [G] 19vw [H] 19vw [I] 19vw [J] 19vw;
+        margin: 0 0 0 0;
+    }
+
+    .grid-container .visual div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: .2rem;
+        margin: 0 .8em;
+        border-radius: 4.2px;
+    }
+
+    .grid-container .temper {
+        padding: .2rem .2rem;
+        margin: 1.2rem 0;
+    }
+
+    .detailed-title{
+        text-align: center;
+    }
+
+    .detailed-info .legend-box {
+        /*background-color: rgba(255,255,255, 0.6);*/
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 15%);
+        text-align: center;
+        row-gap: 0;
+        padding: 0;
+    }
+
+    .detailed-info .legend-box .legend-1{
+        font-size: 1.4rem;
+        margin-bottom: .4em;
+        padding: .4em;
+    }
+
+    .detailed-info .detail-box {
+        padding:  0;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 20%); 
+        justify-content: center;
+        row-gap: 3rem;
+        text-align: center;
+    
+    }
+    
+    .detail-box .nextdate,
+    .detail-box .weather,
+    .detail-box .temp-box {
+
+        margin-bottom: -1.4rem;
+        margin-top: 1.6rem;
+    }
+
+    .detail-box .humidity,
+    .detail-box .wind,
+    .detail-box .pressure {
+
+        margin-top: -1.4rem;
+        margin-bottom: 1.6rem;
+    }
+
+
+    .switch-btn-l, .switch-btn-r {
+        width: 5em;
+        height: 2.2em;
+        position: relative; left: 2%;
+        /* Button styling */
+        border-radius: 7px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        background-color: rgb(219, 172, 84);
+    }
+
+    .switch-btn-r {
+        position: relative; left: calc(98% - 5em);
+    }
+        
+}
+
+@media screen and (orientation: portrait) and (min-height: 901px) {
+
+    .grid-container{
+        grid-template-rows: [date]14% [vis]20% [temp]14%; 
+        grid-template-columns: [A] 20vw [B] 20vw [C] 20vw [D] 20vw [E] 20vw [F] 20vw [G] 20vw [H] 20vw [I] 20vw [J] 20vw;
+        margin: 0 0 0 0;
+    }
+
+    .detailed-info .detail-box, .legend-box {
+        padding:  0 2.2em;
+        row-gap: 1.3em;
+        font-size: 1.25em;
+    }
+
+
+    .switch-btn-l, .switch-btn-r {
+        width: 7em;
+        height: 3em;
+        position: relative; left: 2%;
+        /* Button styling */
+        border-radius: 7px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        background-color: rgb(219, 172, 84);
+    }
+
+    .switch-btn-r {
+        position: relative; left: calc(98% - 7em);
+    }
+
+}

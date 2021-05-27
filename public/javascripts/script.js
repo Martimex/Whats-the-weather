@@ -177,13 +177,13 @@ last();
 
 // Code for searchbox
 
-document.querySelector('.searchbar > .lookup')
+document.querySelector('.searchbar > form > .lookup')
     .addEventListener('click', () => {
         checkCity();
     })
 
 function checkCity() {
-    const input = document.querySelector('.searchbar > #city');
+    const input = document.querySelector('.searchbar > form > #city');
     let input_v = input.value.toLowerCase();
     let input_value = input_v;
 

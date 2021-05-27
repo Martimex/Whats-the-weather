@@ -6,8 +6,9 @@ block content
       div(class='grid-box')
         div(class='searchbar')
           label(for='city') #[strong Your city:]
-          input(type="text" id='city' placeholder="Type a city name...")
-          i(class='lookup icon-search' type='submit')              
+          form(method='POST' action='/:cityname/details')
+            input(type="text" id='city' name='cityname' placeholder="Type a city name...")
+            i(class='lookup icon-search' type='submit')              
 
         div(class='update-time') #[strong Updated:]
           p(class='date')
@@ -16,7 +17,7 @@ block content
       div(class='main-container')
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -26,7 +27,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -36,7 +37,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -46,7 +47,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -56,7 +57,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -66,7 +67,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/details')
+          a(href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
