@@ -5,10 +5,11 @@ block content
 
       div(class='grid-box')
         div(class='searchbar')
+          
+          
           label(for='city') #[strong Your city:]
-          form(method='POST' action='/:cityname/details')
-            input(type="text" id='city' name='cityname' placeholder="Type a city name...")
-            i(class='lookup icon-search' type='submit')              
+          input(type="text" id='city' name='city' placeholder="Type a city name...")
+          i(class='lookup icon-search' type='submit' value='submit')              
 
         div(class='update-time') #[strong Updated:]
           p(class='date')
@@ -17,7 +18,7 @@ block content
       div(class='main-container')
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -27,7 +28,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -37,7 +38,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -47,7 +48,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -57,7 +58,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -67,7 +68,7 @@ block content
                 div(class='weather')    
 
         section(class='weather-box')
-          a(href='cities/:cityname/details')
+          a(class='clickable' href='cities/:cityname/details')
             div(class='weather-container')
               div(class='city')
               img(class='icon')
@@ -80,6 +81,8 @@ block content
       p(class='title') 
         i(class='icon-attention') Warning
       div(class='text')
+
+    form(name='search' method="GET" action="/" )
 
     script(src='/libraries/anime/lib/anime.min.js')
     script(src='/javascripts/addons.js')

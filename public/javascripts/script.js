@@ -177,13 +177,13 @@ last();
 
 // Code for searchbox
 
-document.querySelector('.searchbar > form > .lookup')
+document.querySelector('.searchbar > .lookup')
     .addEventListener('click', () => {
         checkCity();
     })
 
 function checkCity() {
-    const input = document.querySelector('.searchbar > form > #city');
+    const input = document.querySelector('.searchbar >  #city');
     let input_v = input.value.toLowerCase();
     let input_value = input_v;
 
@@ -338,3 +338,22 @@ function randomize(queryArray) {
     //console.log(queryArray);
     return queryArray;
 }
+
+
+// Submit the city name after clicking
+
+document.querySelectorAll('.clickable').forEach(a => {
+    a.addEventListener('click', () => {
+        let city = a.querySelector(`.weather-container .city`);
+        let text = city.textContent;
+
+        //  1. Save the text variable in hidden input
+        document.querySelector('form[name="search"]').textContent = text;
+
+        // 2. Read the data from hidden input
+        // 3. Use .submit() function to send the data to
+        document.querySelector('form[name="search"]').submit();
+
+        console.log(text);
+    })
+})
