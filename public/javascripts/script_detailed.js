@@ -298,8 +298,8 @@ function last() {
     }
     // Display queried city name on the upper span
 
-    let citySpan = document.querySelector('.city-name');
-    citySpan.textContent = city;
+    //let citySpan = document.querySelector('.city-name');
+    //citySpan.textContent = city;
 
     //separateDays(fullDate);
 }
