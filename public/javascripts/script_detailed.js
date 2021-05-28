@@ -1,4 +1,6 @@
-const city = 'Kraków';
+const citydiv = document.querySelector('.city-name');
+const city = citydiv.innerText;
+console.log(city);
 
 let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=d10be5670d0e6307831a8eccb6cee0ef`;
 
