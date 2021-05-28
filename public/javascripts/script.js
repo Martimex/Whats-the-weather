@@ -343,17 +343,57 @@ function randomize(queryArray) {
 // Submit the city name after clicking
 
 document.querySelectorAll('.clickable').forEach(a => {
-    a.addEventListener('click', () => {
+    a.addEventListener('click', function (e) {
+
+        e.stopPropagation();
+        //e.preventDefault();
+
+        let href = this.href;
+        let parts = href.split('1');
+        let url = parts[0];
+        let params = parts[1].split('&');
+
+        console.log('Href: ', href);
+        console.log('Parts: ', parts);
+        console.log('Url: ', url);
+        console.log('Params: ', params);
+
+        //let pp, inputs = '';
+
         let city = a.querySelector(`.weather-container .city`);
         let text = city.textContent;
 
+        let finalURL = url+text;
+
+        this.href = finalURL;
+
+        console.log(finalURL);
+
+        /* for(var i = 0, n = params.length; i < n; i++) {
+            pp = params[i].split('=');
+            inputs += '<input type="hidden" name="' + pp[0] + '" value="' + text + '" />';
+        } */
+
+        //console.log(etu);
+
+        /*
+        $("body").append('<form action="'+url+'" method="post" id="poster">'+inputs+'</form>');
+        $("#poster").submit();
+        */
+        //let city = a.querySelector(`.weather-container .city`);
+        //let text = city.textContent;
+
         //  1. Save the text variable in hidden input
         document.querySelector('form[name="search"]').textContent = text;
+
+        console.log(document.querySelector('form[name="search"]').textContent)
 
         // 2. Read the data from hidden input
         // 3. Use .submit() function to send the data to
         document.querySelector('form[name="search"]').submit();
 
         console.log(text);
+
+       
     })
 })
