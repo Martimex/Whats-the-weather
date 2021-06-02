@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -23,6 +24,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressCspHeader({
+  directives: {
+    'connect-src' : 'http://api.openweathermap.org/',
+    'img-src' : ['http://openweathermap.org/img/', SELF], 
+    'style-src' : SELF,
+    'script-src' : SELF,
+  }
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

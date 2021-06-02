@@ -3,6 +3,7 @@ exports.index = async (req, res, next) => {
 };
 
 exports.app_page = async (req, res, next) => {
+   await res.header(`Content-Security-Policy', connect-src http://api.openweathermap.org/data/2.5/`);
    await res.render('app_page', {title:  `What's The Weather`});
 };
 
