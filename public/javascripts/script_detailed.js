@@ -76,7 +76,7 @@ function last() {
 
                 let temp = Math.floor(data.list[(iter*4)+1].main.temp)+'°C';
                 let iconCode = data.list[(iter*4)+1].weather[0].icon;
-                let iconurl = `http://openweathermap.org/img/w/${iconCode}.png`;
+                let iconurl = `https://openweathermap.org/img/w/${iconCode}.png`;
                // console.log(fullDate);
 
                 let num = Math.floor(data.list[(iter*4)+1].main.temp);
@@ -390,7 +390,7 @@ function lastDetailed() {
                 //console.log('fullDate: '+fullDate);
 
                 let iconCode = details.list[(iter*4)+1].weather[0].icon;
-                let iconurl = `http://openweathermap.org/img/w/${iconCode}.png`; // this one will be appended to img tag
+                let iconurl = `https://openweathermap.org/img/w/${iconCode}.png`; // this one will be appended to img tag
                 //console.log(iconurl);
 
                 let temp = Math.floor(details.list[(iter*4)+1].main.temp)+'°C';  // actual temperature

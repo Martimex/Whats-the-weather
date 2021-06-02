@@ -82,14 +82,14 @@ function last() {
     {
 
         let chosencity = queryArray[i];
-        let url = `http://api.openweathermap.org/data/2.5/weather?q=${chosencity}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${chosencity}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
         //console.log(queryArray);
 
         fetch(url)
             .then(res => res.json())
             .then((data) => {
             
-                let icon = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+                let icon = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
                 let temp = Math.floor(data.main.temp)+'°C';
                 let weather = data.weather[0].main;
                 let iconCode = data.weather[0].icon;
@@ -189,7 +189,7 @@ function checkCity() {
 
     input_value = input_value.charAt(0).toUpperCase() + input_value.slice(1);
 
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${input_value}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${input_value}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
 
     fetch(url)
         .then(res => res.json())
@@ -231,7 +231,7 @@ function checkCity() {
                     }  
                 }
 
-                let icon = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+                let icon = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
                 let temp = Math.floor(data.main.temp)+'°C';
                 let weather = data.weather[0].main;
                     

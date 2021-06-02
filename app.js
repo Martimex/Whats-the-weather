@@ -27,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(expressCspHeader({
   directives: {
-    'connect-src' : 'http://api.openweathermap.org/',
-    'img-src' : ['http://openweathermap.org/img/', SELF], 
+    'connect-src' : 'https://api.openweathermap.org/',
+    'img-src' : ['https://openweathermap.org/img/', SELF], 
     'style-src' : SELF,
     'script-src' : SELF,
   }
