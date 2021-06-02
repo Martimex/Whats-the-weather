@@ -19,6 +19,7 @@
     "helmet": "^4.6.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "pug": "^3.0.2",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
