@@ -1,5 +1,5 @@
 exports.index = async (req, res, next) => {
-   await res.send(`Not implemented: Landing page`);
+   await res.send(`If you're reading this text, that means the landing page hasn't been implemented yet. But don't worry, you can still use this app - just add '/cities' to the current URL. Sorry for inconvenience !`);
 };
 
 exports.app_page = async (req, res, next) => {
