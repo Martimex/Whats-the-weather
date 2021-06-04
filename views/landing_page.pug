@@ -1,0 +1,42 @@
+extends layout_landing
+
+block content
+    div(class='all')
+      div(class='logo') 
+        div(class='logo-text city-name') #{title}
+
+      div(class='alldesc' data-float='left')
+
+        div(class='desc')
+          div(class='desc-title') Every city in Your range
+
+          div(class='desc-text') Is it sunny today? Or maybe windy? Check the weather forecast for your city and more than 500.000 others! You can also lookup for the current weather if necessary.
+
+
+      div(class='alldesc' data-float='right')
+    
+        div(class='desc') 
+          div(class='desc-title') For free - forever
+
+          div(class='desc-text') We don't want to limit any of our visitors. What's The Weather is (and will be) free to use for every user. Anywhere, anytime, on any device. 
+
+
+      div(class='buttons-box')
+
+        div(class='buttons-box-div')
+          a(class='option') Info
+
+        div(class='buttons-box-div')
+          a(class='option'  href='catalog/cities' data-name='start') Start 
+
+        div(class='buttons-box-div')
+          a(class='option') About 
+
+      div(class='finish')   
+        div(class='curio') Did you know ?
+          div(class='curio-text')
+
+
+      <script src='/libraries/anime/lib/anime.min.js'></script>
+      <script src='/javascripts/script_landing.js'></script>
+      <script src='/javascripts/animations_landing.js'></script>

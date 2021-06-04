@@ -1,0 +1,130 @@
+:root {
+    --shade: #adbcff;
+    --minpadd: 1.5rem;
+}
+
+.all {
+    background: url('../images/landing.jpg');
+    background-size: cover;
+    filter: opacity(12px);
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    margin: 0 0 3.2rem 0;
+}
+
+.logo-text {
+    padding: 1rem;
+    -webkit-box-shadow: -22px -8px 22px 13px var(--shade); 
+    box-shadow: -22px -8px 22px 13px var(--shade);
+    border-radius: 20px;
+}
+
+.alldesc{
+    display: flex;   
+    margin: 0 0 2rem 0;
+}
+
+.alldesc[data-float='left'] {
+    justify-content: flex-start;
+}
+
+.alldesc[data-float='left'] .desc {
+    margin: 0 0 0 var(--minpadd);
+}
+
+.alldesc[data-float='right'] {
+    justify-content: flex-end;
+}
+
+.alldesc[data-float='right'] .desc {
+    margin: 0 var(--minpadd) 0 0;
+}
+
+
+.desc {
+    width: 45%;
+    /*border-radius: 20px;  */
+}
+
+.desc .desc-title {
+    color: goldenrod;
+}
+
+.desc .desc-text {
+    color: #eee;
+}
+
+.desc .desc-title {
+    background: #0007;
+    font-size: 2rem;
+    padding:  1rem 0 0 3.5rem;
+    border-bottom: .1rem solid goldenrod;
+    font-weight: 800;
+    border-radius: 8px;
+}
+
+.desc .desc-text {
+    background: #0005;
+    font-size:  1.3rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+
+}
+
+.buttons-box {
+    margin: 5rem 0 0 0;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.buttons-box-div {
+    width: 30%;
+    max-width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-box-div .option {
+    border-radius: 10px;
+    padding: .4rem 1.4rem;
+    font-size: 3em;
+    color: #ffffff;
+    border: .2rem solid goldenrod;
+    background: #0001;
+    text-decoration: none;
+}
+
+.buttons-box-div .option[data-name='start'] {
+    color: var(--shade);
+}
+
+.finish {
+    margin: 6rem 2.2rem 0 2.2rem;
+    padding: 0 0 3rem 0;
+}
+
+.curio{
+    border-radius: 20px;
+    color: goldenrod;
+    font-size: 3rem;
+    font-weight: 750;
+    padding: 2rem;
+    background: #fff3;
+}
+
+.curio-text {
+    border-radius: 20px;
+    padding-top: 2rem;
+    font-weight: 400;
+    color: #fff;
+    font-size: 1.4rem;
+}
