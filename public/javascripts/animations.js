@@ -1,6 +1,5 @@
 
-
-let fadeIn = anime.timeline({
+/* let fadeIn = anime.timeline({
     duration: 2200,
     
 });
@@ -33,7 +32,7 @@ let fadeIn = anime.timeline({
     direction: 'alternate',
     loop:true,
 });
-
+ */
 
 let animation = anime({
    // targets: '.progress',

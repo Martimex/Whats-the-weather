@@ -29,7 +29,7 @@ app.use(expressCspHeader({
   directives: {
     'connect-src' : 'https://api.openweathermap.org/',
     'img-src' : ['https://openweathermap.org/img/', SELF], 
-    'style-src' : SELF,
+    'style-src' : ['https://fonts.googleapis.com/', SELF],
     'script-src' : SELF,
   }
 }));

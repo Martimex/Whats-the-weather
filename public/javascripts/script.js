@@ -1,399 +1,249 @@
-//const cities1 = ['Moscow', 'Kraków', 'Suwałki', 'Warsaw', 'Paris', 'Johannesburg', 'Dehli', 'Los Angeles', 'Sao Paulo', 'Montevideo'];
+class Weather {
+    constructor(data) {
+        this.id = data.id;
+        this.city = data.name;
+        this.country = data.sys.country;
+        this.weather_now = data.weather[0].main;
+        this.weather_icon = data.weather[0].icon;
+        this.temp = Math.round(data.main.temp);
+    }
+    getTemperature(unit) {
+        if(unit === 'c') return `${this.temp} °C`;
+        if(unit === 'f') return `${Math.round(this.temp * 1.8) + 32} F`;
+        if(unit === 'k') return `${this.temp + 273} K`;
+        return ' - ';
+    }
+}
 
-console.log(Date.now());
-
-const cities = ['Moscow', 'Kraków', 'Montevideo', 'Honolulu', 'Vien', 'Dehli'];
-let queryArray = new Array();
+const weatherArray = [];
+let temperatureUnit = 'c'
 const weatherIconCodes = ['11d', '09d', '10d', '13d', '50d', '01d', '01n', '02d', '02n', '03d', '03n', '04d', '04n'];
+const initialArr = randomize(weatherArray, 6)
+    .then((resultArr) => last(resultArr))
+    .catch(err => console.error(err));
 
-function first() {
-
-    const all = document.querySelector('.all');
-    let boxElem = all.querySelector('section');
-    //console.log(boxElem);
-
-    if(!boxElem) {
-
-        maincontainer = document.createElement('div');
-        maincontainer.classList.add('main-container');
-   
-        all.appendChild(maincontainer);
+document.querySelector('.app-content').addEventListener('click', (e) =>  {
+    const dataOnClick = e.target.dataset['onclick'];
+    if(!dataOnClick) return;
+    switch(dataOnClick) {
+        case 'addCity': { addCity(weatherArray); break;}
+        case 'convertTemp': { convertTemp(e.target); break;} 
     }
-
-    else {
-
-        all.querySelectorAll('.weather-container')
-            .forEach(box => {
-                box.remove();
-            })
-    }
-
-    for(let y=0; y<cities.length; y++) {
-
-        let section = document.createElement('section');
-        section.classList.add('weather-container');
-
-        maincontainer.appendChild(section);
-
-        let a = document.createElement('a');
-           //a.setAttribute('href', 'cities/details');
-           a.classList.add('link');
-        section.appendChild(a);
+})
 
 
-        let city = document.createElement('div');
-            city.classList.add('city');
+function last(citiesArr) {
 
-        section.appendChild(city);
-
-        let img = document.createElement('img');
-            img.classList.add('icon');
-
-        section.appendChild(img);
-
-        let flextemp = document.createElement('div'); 
-            flextemp.classList.add('flex-temp');
-
-        section.appendChild(flextemp);
-
-            let temper = document.createElement('div');
-                temper.classList.add('temp');
-
-        flextemp.appendChild(temper);
-
-        let flexweather = document.createElement('div');
-            flexweather.classList.add('flex-weather');
-
-        section.appendChild(flexweather);
-
-            let weatherr = document.createElement('div');
-                weatherr.classList.add('weather');
-
-        flexweather.appendChild(weatherr);
-    }
-
-}
-
-
-
-function last() {
-
-    for(let i=0; i<queryArray.length; i++)
-    {
-
-        let chosencity = queryArray[i];
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${chosencity}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
-        //console.log(queryArray);
-
-        fetch(url)
-            .then(res => res.json())
-            .then((data) => {
-            
-                let icon = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-                let temp = Math.floor(data.main.temp)+'°C';
-                let weather = data.weather[0].main;
-                let iconCode = data.weather[0].icon;
-                let result = '';
-                
-                let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
-
-                //console.log(name);
-                //let el = document.createElement('div');
-                //    el.classList.add('city-name');
-               // el.textContent = chosencity;
-               // name.appendChild(el);
-
-                console.log(iconCode);
-            
-                main.querySelector('.icon')
-                    .setAttribute('src', icon);
-                        main.querySelector('.city')
-                            .textContent = chosencity;
-                        main.querySelector('.weather')
-                            .textContent = weather;
-                        main.querySelector('.temp')
-                            .textContent = temp;
-
-
-                for(code in hoverEffectObj) {
-                    if(iconCode == code) {
-                        result = `${hoverEffectObj[code]}`;
-                        //console.log('DONE');
-                        console.log(`%c ${result}`, 'color: red;')
-                        main.addEventListener(`mouseenter`, () => {
-                            main.style.background = result;
-                        })
-
-                        if(window.matchMedia('only screen and (min-width: 300px)')) {
+    for(let i=0; i<citiesArr.length; i++) {
+        // To search Dublin (Ireland), type = Dublin, ie
+        // To search Dublin (USA), type = Dublin, us
+        let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
     
-                            main.addEventListener('touchend', () => {
-                                main.style.background = result;
-                            })
-                        }
+        console.log(`${i}: -> ${citiesArr[i].country}`)
+        main.querySelector('.weather-icon').setAttribute('src', `https://openweathermap.org/img/w/${citiesArr[i].weather_icon}.png`);
+        main.querySelector('.country-icon').setAttribute('src', `../images/country-flags/svg/${citiesArr[i].country}.svg`);
+        main.querySelector('.city-name').textContent = citiesArr[i].city;
+        main.querySelector('.weather-description').textContent = citiesArr[i].weather_now;
+        main.querySelector('.weather-temperature').textContent = citiesArr[i].getTemperature(temperatureUnit);
 
-                    }
-                }
-                    
-                //getAHoverEffect(iconCode, result, main);
+        main.removeEventListener(`mouseenter`, hoverAnimate);
+        main.addEventListener(`mouseenter`, hoverAnimate);
+
+        if(window.matchMedia('only screen and (min-width: 300px)')) {
+            main.removeEventListener('touchend', hoverAnimate);
+            main.addEventListener('touchend', hoverAnimate);
+        }
+
+        function hoverAnimate(e) {
+            console.dir(e.type);
+            if(e.type === 'mouseenter' || e.type === 'touchend') {
+                animateWeatherBox(e, true);
+            } else if(e.type === 'mouseleave') {
+                animateWeatherBox(e, false);
             }
-        ) 
-        .catch(err => { throw err});
-
+            main.style.background = `${hoverEffectObj[citiesArr[i].weather_icon]}`;
+        }
     }
-
-    // Here will be a function or code that will calculate current date (with hours), so
-    // at the end we get the last update static timeframe
-
-    try {
-        let today = new Date();
-
-        let dateArr = [`${today.getFullYear()}`, `${today.getMonth()+1}`, `${today.getDate()}`,
-        `${today.getHours()}`, `${today.getMinutes()}`, `${today.getSeconds()}`];
-
-        let finalArr = [];
-
-        dateArr.forEach(info => {
-            info = parseInt(info);
-            console.log(typeof(info));
-            if(info < 10) {console.log('ok'); finalArr.push(`0${info}`) ;}
-            else finalArr.push(info);
-        })
-
-        let date = `${finalArr[0]} - ${finalArr[1]} - ${finalArr[2]}`;
-        let time = `${finalArr[3]} : ${finalArr[4]} : ${finalArr[5]}`;
-
-        document.querySelector('.update-time .date').textContent = date;
-        document.querySelector('.update-time .time').textContent = time;
-
-    } catch (error) {
-        console.log(error);
-    }
-
 }
 
-//first();
-randomize(queryArray);  //-> to będzie losować początkowe miasta po każdorazowym odświeżeniu strony
-last();
+function animateWeatherBox(e, isPreviewMode) {
+    const getCountryFlag = e.target.querySelector('.country-flag');
+    const getCityName = e.target.querySelector('.city-name');
+    const gettNationalityBox = e.target.querySelector('.weather-nationality');
+    const getWeatherCurrentBox = e.target.querySelector('.weather-current');
+    anime({
+        targets: e.target,
+        duration: 1200,
+        
+        easing: 'easeOutExpo',
+    })
+    anime({
+        targets: [getCityName],
+        duration: 1200,
+        //translateX: '-30%',
+        //opacity: 0,
+        display: 'none',
+        easing: 'easeOutExpo',
+    })
+    anime({
+        targets: getWeatherCurrentBox,
+        duration: 1200,
+        left: '-50%',
+        //opacity: 0,
+        easing: 'easeOutExpo',
+    })
+}
 
 // Code for searchbox
 
-document.querySelector('.searchbar > .lookup')
-    .addEventListener('click', () => {
-        checkCity();
-    })
-
-function checkCity() {
+function addCity(weatherArr) {
     const input = document.querySelector('.searchbar >  #city');
-    let input_v = input.value.toLowerCase();
-    let input_value = input_v;
-
-    input_value = input_value.charAt(0).toUpperCase() + input_value.slice(1);
+    const input_value = input.value.charAt(0).toUpperCase() + input.value.toLowerCase().slice(1);
 
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${input_value}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
 
+    // Grab those in case of Warning / Error Popup message
+    let notify = document.querySelector('.notification-bar');
+    let icon = document.querySelector('.notification-bar .title i');
+    
     fetch(url)
         .then(res => res.json())
         .then((data) => {
+            const newWeatherItem = new Weather(data);
 
-            if(!(Object.values(data).includes(404))) { // => Checking whether the -data Object contains err 404 (key = 'cod' value = '404);
-              
-
-                let displayedCityNames = [];
-                document.querySelectorAll(`.weather-container > .city`)
-                    .forEach(cityName => {
-                        let cname = cityName.textContent;
-                        displayedCityNames.push(cname);
+            for(let weather of weatherArr) {
+                if(newWeatherItem.id === weather.id) {
+                    activateNotificationBar(false, [notify, icon]);
+                    
+                    anime({
+                        targets: notify,
+                        loop: false,
+                        delay: 3000,
+                        duration: 3000,
+                        opacity: [1, 0],
                     })
 
-                //console.log({displayedCityNames});
-
-                for(cname of displayedCityNames) {
-                    if(input_value === cname) {
-                        console.log('Visibility change');
-                        let notify = document.querySelector('.notification-bar');
-                        let icon = document.querySelector('.notification-bar .title i')
-                            notify.style = 'visibility: visible;';
-                            if(notify.classList.contains('danger')) {
-                                notify.classList.replace('danger', 'warning');
-                                icon.classList.replace('icon-cancel', 'icon-attention');
-                            }
-                        document.querySelector('.notification-bar .text').textContent = `This city is already on the list!`;
-                        
-                        anime({
-                            targets: notify,
-                            loop: false,
-                            delay: 3000,
-                            duration: 3000,
-                            opacity: [1, 0],
-                        })
-
-                        return;
-                    }  
-                }
-
-                let icon = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-                let temp = Math.floor(data.main.temp)+'°C';
-                let weather = data.weather[0].main;
-                    
-                //let lastitem = cities[cities.length -1];
-                // Update the Array
-                
-                updateArr(queryArray, input_value);
-                //cities.shift();
-                //cities.unshift(input_value);
-                //console.log(cities);
-
-                //first();
-                last();
-
-                let main = document.querySelector(`.main-container > section:nth-child(1)`);
-
-               // let name = document.querySelector(`.main-container > section:nth-child(1) > div > div`);
-                //console.log(name);
-
-                //name.textContent = input_value;
-            
-                main.querySelector('.icon')
-                    .setAttribute('src', icon);
-                       // main.querySelector()
-                        main.querySelector('.weather')
-                            .textContent = weather;
-                        main.querySelector('.temp')
-                            .textContent = temp;
-
+                    return;
+                }  
             }
-
+                
+            // Update the Array & update the list
+            updateArr(weatherArr, newWeatherItem);
+            last(weatherArr);
         }) 
         .catch(err => {
-            //console.log(err);
-            let notify = document.querySelector('.notification-bar');
-            let icon = document.querySelector('.notification-bar .title i');
-                notify.style = 'visibility: visible;';
-                    if(notify.classList.contains('warning')) {
-                        notify.classList.replace('warning', 'danger');
-                        icon.classList.replace('icon-attention', 'icon-cancel');
-                    }
-            document.querySelector('.notification-bar .text').textContent = `This city does not exist!`;
 
-            anime({
-                targets: notify,
-                loop: false,
-                delay: 3000,
-                duration: 3000,
-                opacity: [1, 0],
-            })
+            activateNotificationBar(true, [notify, icon]);
+            runAsync(notify);
+            async function runAsync() {
+                const a1 = anime({
+                    targets: notify,
+                    loop: false,
+                    delay: 3000,
+                    duration: 3000,
+                    opacity: [1, 0],
+                }).finished;
+
+                await a1.then(() => {
+                    notify.style.display = 'none';
+                })
+            } 
         });
     
 }
 
-function updateArr(allCities, val) {
-
-    //console.log(allCities);
-    
-
-    for(let x=allCities.length; x<0; x--)
-    {
-        allCities[x] = allCities[x-1];
-
+function convertTemp(target) {
+    const temperatures = {
+        'celc': 'c',
+        'fahr': 'f',
+        'kelv': 'k',
     }
+    document.querySelector(`.temp-${Object.keys(temperatures).find(key => temperatures[key] === temperatureUnit)}`).classList.remove('temp-chosen');
+    temperatureUnit = temperatures[Object.keys(temperatures).find(el => target.classList.contains(`temp-${el}`))];
+    document.querySelector(`.temp-${Object.keys(temperatures).find(key => temperatures[key] === temperatureUnit)}`).classList.add('temp-chosen');
+    const allTempBoxes = document.querySelectorAll(`.weather-temperature`);
+    fadeInAndOut();
 
-    //console.log(allCities);
-    allCities.unshift(val);
-    allCities.pop();
+    async function fadeInAndOut() {
+        await fadeIn()
+            .then(() => {
+                allTempBoxes.forEach((weather_box, ind) => {
+                    weather_box.textContent = weatherArray[ind].getTemperature(temperatureUnit);
+                })
+                anime({
+                    targets: allTempBoxes,
+                    duration: 300,
+                    opacity: [0, 1],
+                    easing: 'easeOutExpo',
+                });
 
-    return allCities;
+            })
+        async function fadeIn() {
+            await anime({
+                targets: allTempBoxes,
+                duration: 400,
+                opacity: [1, 0],
+                easing: 'easeOutExpo',
+            }).finished;
+        }
+    }
 }
 
-function randomize(queryArray) {
+function activateNotificationBar(isErrorType, [notification, icon]) {
+    notification.style.display = 'block';
+    isErrorType? notification.classList.replace('warning', 'danger') : notification.classList.replace('danger', 'warning');
+    isErrorType? icon.classList.replace('icon-attention', 'icon-cancel') :  icon.classList.replace('icon-cancel', 'icon-attention');
+    document.querySelector('.notification-bar .text').textContent = isErrorType?  `This city does not exist!` : `This city is already on the list!`;
+}
 
-    const limit = 6;
-
-    fulfillArray(queryArray);
-
-    function fulfillArray(queryArray) {
-
-        if(queryArray.length > 1) {
-            for( let x=queryArray.length-1; x>=0; x--) {
-                queryArray.pop();
-            }
-        }
-
-        for(let i=0; i<limit; i++) {
-            let rand = Math.floor(Math.random()* capitalCities.length);
-            queryArray.push(capitalCities[rand]);
-        }
-
-        let obj = {};
-
-        for(let i of queryArray) {
-            obj[i] = true;
-        }
-
-        //console.log(queryArray.length);
-        
-        if(Object.keys(obj).length !== limit) {fulfillArray(queryArray);}
-
-        else {return queryArray;}
+function updateArr(weatherArr, val) {
+    for(let x=weatherArr.length; x<0; x--)
+    {
+        weatherArr[x] = weatherArr[x-1];
     }
-    //console.log(queryArray);
+    weatherArr.unshift(val);
+    weatherArr.pop();
+
+    return weatherArr;
+}
+
+async function randomize(queryArray, el_limit) {
+    const capitalCities_copy = [...capitalCities];
+    for(let el=0; el<el_limit; el++) {
+        let rand = Math.floor(Math.random()*capitalCities_copy.length);
+        const getUrl = `https://api.openweathermap.org/data/2.5/weather?q=${capitalCities_copy[rand]}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`
+        await fetch(getUrl).then(res => res.json()).then(data => {
+            queryArray.push(new Weather(data));
+            capitalCities_copy.splice(rand, 1);
+            let weather_container = document.querySelector(`section.weather-box:nth-of-type(${el+1})`);
+            anime({
+                targets: weather_container,
+                duration: (1200 + el * 200),
+                opacity: [0, 1],
+                easing: 'easeInExpo',
+            })
+        })
+    }
     return queryArray;
 }
 
 
 // Submit the city name after clicking
 
-document.querySelectorAll('.clickable').forEach(a => {
+document.querySelectorAll('.clickable').forEach((a, ind) => {
     a.addEventListener('click', function (e) {
-
         e.stopPropagation();
-        //e.preventDefault();
 
-        let href = this.href;
-        let parts = href.split('1');
-        let url = parts[0];
-        let params = parts[1].split('&');
-
-        console.log('Href: ', href);
-        console.log('Parts: ', parts);
-        console.log('Url: ', url);
-        console.log('Params: ', params);
-
-        //let pp, inputs = '';
-
-        let city = a.querySelector(`.weather-container .city`);
-        let text = city.textContent;
-
-        let finalURL = url+text;
-
+        let parts = this.href.split('1')[0];
+        let cityText = weatherArray[ind].city; // a foolproof approach !
+        let finalURL = parts + cityText;
         this.href = finalURL;
 
-        console.log(finalURL);
-
-        /* for(var i = 0, n = params.length; i < n; i++) {
-            pp = params[i].split('=');
-            inputs += '<input type="hidden" name="' + pp[0] + '" value="' + text + '" />';
-        } */
-
-        //console.log(etu);
-
-        /*
-        $("body").append('<form action="'+url+'" method="post" id="poster">'+inputs+'</form>');
-        $("#poster").submit();
-        */
-        //let city = a.querySelector(`.weather-container .city`);
-        //let text = city.textContent;
-
         //  1. Save the text variable in hidden input
-        document.querySelector('form[name="search"]').textContent = text;
-
-        console.log(document.querySelector('form[name="search"]').textContent)
+        document.querySelector('form[name="search"]').textContent = cityText;
 
         // 2. Read the data from hidden input
         // 3. Use .submit() function to send the data to
         document.querySelector('form[name="search"]').submit();
-
-        console.log(text);
-
-       
     })
 })
