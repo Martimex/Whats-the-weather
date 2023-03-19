@@ -61,7 +61,6 @@ function last() {
         fetch(url)  
             .then(res => res.json())
             .then((data) => {
-                
                 let fullDate = data.list[(iter*4)+1].dt_txt;
                 if(mediaQueryPortrait.matches) {
                     fullDate = fullDate.substring(5, 16);

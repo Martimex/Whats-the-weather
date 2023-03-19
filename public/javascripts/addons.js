@@ -6,8 +6,8 @@ const hoverEffectObj = {
     '02n' : `linear-gradient(to right, #bdc3c7aa, #2c3e50aa)`,
     '03d' : `linear-gradient(135deg, #8BC6ECaa, #9599E2aa)`,
     '03n' : `linear-gradient(135deg, #8BC6ECaa, #9599E2aa)`, //the same icon as above, //// linear-gradient(to right, #4e5499, #8f9499)
-    '04d' : `radial-gradient(#2c3e50bb 40%, #bdc3c744 60%, #5c5e5099 100%)`,
-    '04n' : `radial-gradient(#2c3e50bb 40%, #cdc5c944 60%, #5c5e5099 100%)`, // the same icon as above radial-gradient(#791a, #369b)
+    '04d' : `radial-gradient(#2c3e50aa 20%, #55555588 55%, #5c5e5022 100%)`,
+    '04n' : `radial-gradient(#2c3e50aa 20%, #55555588 55%, #5c5e5022 100%)`, // the same icon as above radial-gradient(#791a, #369b)
     '09d' : `linear-gradient(to right, #4b79a1bb, #283e51bb)`, 
     '09n' : `linear-gradient(to right, #4b79a1bb, #283e51bb)`, // the same icon as above
     '10d' : `linear-gradient(to right, #ede574bb, #3d72b4bb)`, // radial-gradient(#4288, #51b8)

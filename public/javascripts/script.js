@@ -31,23 +31,23 @@ document.querySelector('.app-content').addEventListener('click', (e) =>  {
     }
 })
 
-
 function last(citiesArr) {
 
     for(let i=0; i<citiesArr.length; i++) {
         // To search Dublin (Ireland), type = Dublin, ie
         // To search Dublin (USA), type = Dublin, us
         let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
-    
-        console.log(`${i}: -> ${citiesArr[i].country}`)
         main.querySelector('.weather-icon').setAttribute('src', `https://openweathermap.org/img/w/${citiesArr[i].weather_icon}.png`);
         main.querySelector('.country-icon').setAttribute('src', `../images/country-flags/svg/${citiesArr[i].country}.svg`);
         main.querySelector('.city-name').textContent = citiesArr[i].city;
         main.querySelector('.weather-description').textContent = citiesArr[i].weather_now;
         main.querySelector('.weather-temperature').textContent = citiesArr[i].getTemperature(temperatureUnit);
+        main.querySelector('.weather-colored').style.background = `${hoverEffectObj[citiesArr[i].weather_icon]}`;
 
-        main.removeEventListener(`mouseenter`, hoverAnimate);
-        main.addEventListener(`mouseenter`, hoverAnimate);
+        //main.removeEventListener(`mouseenter`, hoverAnimate);
+        //main.addEventListener(`mouseenter`, hoverAnimate);
+        main.removeEventListener(`mouseleave`, hoverAnimate);
+        main.addEventListener(`mouseleave`, hoverAnimate);
 
         if(window.matchMedia('only screen and (min-width: 300px)')) {
             main.removeEventListener('touchend', hoverAnimate);
@@ -55,43 +55,29 @@ function last(citiesArr) {
         }
 
         function hoverAnimate(e) {
-            console.dir(e.type);
-            if(e.type === 'mouseenter' || e.type === 'touchend') {
-                animateWeatherBox(e, true);
-            } else if(e.type === 'mouseleave') {
-                animateWeatherBox(e, false);
-            }
-            main.style.background = `${hoverEffectObj[citiesArr[i].weather_icon]}`;
+            const getWeatherColored = e.target.querySelector('.weather-colored');
+
+            anime({
+                targets: getWeatherColored,
+                duration: 800,
+                opacity: [1, 0],
+                easing: 'easeOutExpo',
+            })
+
+            /*
+                cool combination below":
+
+                anime({
+                    targets: '.something',
+                    duration: 1100,
+                    opacity: [0, 1],
+                    scale: [0, 1],
+                    rotateY: '120deg',
+                    easing: 'easeOutExpo',
+                })
+            */
         }
     }
-}
-
-function animateWeatherBox(e, isPreviewMode) {
-    const getCountryFlag = e.target.querySelector('.country-flag');
-    const getCityName = e.target.querySelector('.city-name');
-    const gettNationalityBox = e.target.querySelector('.weather-nationality');
-    const getWeatherCurrentBox = e.target.querySelector('.weather-current');
-    anime({
-        targets: e.target,
-        duration: 1200,
-        
-        easing: 'easeOutExpo',
-    })
-    anime({
-        targets: [getCityName],
-        duration: 1200,
-        //translateX: '-30%',
-        //opacity: 0,
-        display: 'none',
-        easing: 'easeOutExpo',
-    })
-    anime({
-        targets: getWeatherCurrentBox,
-        duration: 1200,
-        left: '-50%',
-        //opacity: 0,
-        easing: 'easeOutExpo',
-    })
 }
 
 // Code for searchbox
@@ -132,7 +118,7 @@ function addCity(weatherArr) {
             last(weatherArr);
         }) 
         .catch(err => {
-
+            console.clear();
             activateNotificationBar(true, [notify, icon]);
             runAsync(notify);
             async function runAsync() {
