@@ -206,7 +206,7 @@ async function randomize(queryArray, el_limit) {
                 targets: weather_container,
                 duration: (1200 + el * 200),
                 opacity: [0, 1],
-                easing: 'easeInExpo',
+                easing: 'easeInQuart',
             })
         })
     }

@@ -1,16 +1,55 @@
-const citydiv = document.querySelector('.city-name');
-const city = citydiv.innerText;
-console.log(city);
+const citydiv = document.querySelector('#query-hold');
+const city = citydiv.textContent;
+let isAnimationCompleted = true;
 
 let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=d10be5670d0e6307831a8eccb6cee0ef`;
 
-let limit = 10;
+const queryData = { // stores everything we got from url request (initially fired, only assigned ONCE);
+    requestData: '',
+    sunriseHour: '',
+    sunsetHour: '',
+    cityTimezone: 0,
+    scala: {
+        default: 16,
+        unit: 0,
+    },
+    temperatures: {
+        all_temperatures: [],
+        aritmetic: 0,
+        min: 0,
+        max: 0,
+    },
+    page: {
+        graph: 0,
+        details: 0,
+    }
+}; 
+
+const limit = 8;
+const is_daylight_saving_time = true; // THIS IS IMPORTANT, SINCE IT CONTROLS THE DST FOR SUMMER / WINTER TIME. IF SET TO TRUE, A SUMMER DAYLIGHT TIME IS ENABLED
 
 let isFirstBlockDay; // is the first block representing day?
 
 const mediaQueryList = window.matchMedia('(max-width: 900px) and (orientation: landscape)');  // condition for mobile devices - horizontal screen
 const mediaQueryPortrait = window.matchMedia(`(max-height: 900px) and (orientation: portrait)`); // for vertical screens
 const mediaQueryPortraitHugeScreens = window.matchMedia(`(min-height: 901px) and (orinetation: portrait)`); // for huge vertical screens
+
+document.querySelector('.all').addEventListener('click', (e) => {
+    if(!e.target.classList.contains('grid-toggle-btn') || !isAnimationCompleted) return;
+    // Now check which toggle button was pressed 
+    if(e.target.classList.contains('toggle-prev') && !e.target.classList.contains('inactive')) {
+        queryData.page.graph--;
+        document.querySelectorAll('.graph-icon').forEach(icon => icon.style.opacity = 0);
+        fillTheGraph(queryData, 'back');
+    }
+    if(e.target.classList.contains('toggle-next') && !e.target.classList.contains('inactive')) {
+        queryData.page.graph++;
+        document.querySelectorAll('.graph-icon').forEach(icon => icon.style.opacity = 0);
+        fillTheGraph(queryData, 'forth');
+    }
+
+    checkButtonsBlockingCondition(e.target, queryData);
+})
 
 // trzeba 10 razy fetch'ować dane
 
@@ -19,7 +58,7 @@ function first() {
     const all = document.querySelector('.all');
     const grid = all.querySelector('.grid-container');
 
-    for(let y=0; y<limit; y++) {
+    /* for(let y=0; y<limit; y++) {
         let date = document.createElement('p');
         date.classList.add('date');
         grid.appendChild(date);
@@ -29,96 +68,85 @@ function first() {
         let visual = document.createElement('div');
         visual.classList.add('visual');
         grid.appendChild(visual);
-    }
+    } */
 
-    for(let y=0; y<limit; y++) {
-
+/*     for(let y=0; y<limit; y++) {
+        console.warn('y: ', y);
         for (let x=0; x<41; x++) {  // tworzy 41 divów do animacji - pierwsza najbliższa rejestracja pogody to zawsze 21. div, a pozostałe zależą od tego 1.
             let s = document.createElement('div');
-            document.querySelector(`.visual:nth-of-type(${y+1})`).appendChild(s);
+            console.log(document.querySelector(`.visual:nth-of-type(${y+1})`))
+            document.querySelector(`.container-elem:nth-of-type(${y+1}) .visual`).appendChild(s);
         }
-    }
+    } */
     
 
-    for(let y=0; y<limit; y++) {
+    /* for(let y=0; y<limit; y++) {
         let temper = document.createElement('span');
         temper.classList.add('temper');
         grid.appendChild(temper);
-    }
+    } */
 
-    for(let y=0; y<limit; y++) {
+/*     for(let y=0; y<limit; y++) {
         let icon = document.createElement('img');
         icon.classList.add('icon');
         grid.appendChild(icon);
-    }
+    } */
+
 
 }
 
 function last() {
+    // Block graph toggle-previous button
+    document.querySelector('.grid-toggle-btn.toggle-prev').classList.add('inactive');
+    document.querySelector('.grid-toggle-btn.toggle-prev').style.opacity = 0;
 
-    for(let iter=0; iter<limit; iter++) {
+    console.log(url);
+    fetch(url)  
+        .then(res => res.json())
+        .then((data) => {
 
-        fetch(url)  
-            .then(res => res.json())
-            .then((data) => {
-                let fullDate = data.list[(iter*4)+1].dt_txt;
-                if(mediaQueryPortrait.matches) {
-                    fullDate = fullDate.substring(5, 16);
-                }
+            // Assign a data to a variable initialized beforehand (it'll behave like a global storage)
+            queryData.requestData = data;
+            console.warn(queryData);
 
-                // For first operation in the loop
-                dayOrNight(fullDate, iter);
+            // Fill in the first section (Weather box -- detailed)
 
-                (iter === 0)? separateDays(fullDate) : ''; // ta funkcja wykonana w pętli 10 razy, jest ASYNC !
+            const main = document.querySelector('.weather-container');
+            document.querySelector('.city-name').textContent = `${data.city['name']}`;
+            main.querySelector('.country-city').textContent = `${data.city['name']}`;
+            main.querySelector('.country-icon').setAttribute('src', `../../images/country-flags/svg/${data.city['country'].toLowerCase()}.svg`);
+            main.querySelector('.city-countrycode').textContent = `${data.city['country']}`;
+            main.querySelector('.city-lat').textContent = `${data.city.coord['lat']}`;
+            main.querySelector('.city-lon').textContent = `${data.city.coord['lon']}`;
+            const utc_timezone =  +`${data.city['timezone'] / 3600}`;
+            const sunrise_time = new Date(+`${data.city['sunrise']}` * 1000 + ((is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleTimeString();
+            const sunset_time = new Date(+`${data.city['sunset']}` * 1000 + ((is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleTimeString();
+            main.querySelector('.city-timezone').textContent = `UTC${(data.city['timezone'] / 3600) >= 0 ? `+${data.city['timezone'] / 3600}` : `${data.city['timezone'] / 3600}`}`;
+            main.querySelector('.city-date').textContent = `${(new Date(Date.now() + (is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleString()}`.replace(/.[\d]+,/, ' -- ');
+            main.querySelector('.city-population').textContent =  (!+`${data.city['population']}`)? 'Unknown' : `~ ${data.city['population']}`;
+            main.querySelector('.city-sunrise').textContent = sunrise_time;
+            main.querySelector('.city-sunset').textContent = sunset_time;
 
-                const value = dayOrNight(fullDate);
+            const [dayStartHour, dayEndHour] = [sunrise_time.match(/^[\d][\d]/)[0], sunset_time.match(/^[\d][\d]/)[0]];
+            const allTemperatures = Array.from(data.list).map(el => Math.round(el.main.temp));
+            const aritmetic_temp = allTemperatures.reduce((sum, val) => {return sum + +val}, 0) / allTemperatures.length;
+            const graphScala = calcScala(queryData.temperatures.aritmetic, [queryData.temperatures.min, queryData.temperatures.max], queryData.scala.default);
+            const scalaUnit = (100 / 2) / graphScala;
 
-                let temp = Math.floor(data.list[(iter*4)+1].main.temp)+'°C';
-                let iconCode = data.list[(iter*4)+1].weather[0].icon;
-                let iconurl = `https://openweathermap.org/img/w/${iconCode}.png`;
-               // console.log(fullDate);
+            queryData.cityTimezone = utc_timezone;
+            queryData.sunriseHour = dayStartHour;
+            queryData.sunsetHour = dayEndHour;
+            queryData.temperatures.all_temperatures = [...allTemperatures];
+            queryData.temperatures.aritmetic = aritmetic_temp;
+            queryData.temperatures.min = [].concat(...allTemperatures).sort((a, b) => a - b)[0],
+            queryData.temperatures.max = [].concat(...allTemperatures).sort((a, b) => a - b)[allTemperatures.length - 1]
+            queryData.scala.default = graphScala;
+            queryData.scala.unit = scalaUnit;
 
-                let num = Math.floor(data.list[(iter*4)+1].main.temp);
-                let baseNum = Math.floor(data.list[(0*4)+1].main.temp); // to bazowa temperatura dla itera-0
+            fillTheGraph(queryData, 'forth');
 
-                //console.log(temp);
-    
-                document.querySelector(`.grid-container .date:nth-of-type(${iter+1})`).textContent = fullDate;
-    
-                let visual = document.querySelector(`.grid-container .visual:nth-of-type(${iter+1})`);
-                
-                //visual.style.background = `linear-gradient(to bottom, #ebe, #58c)`;
-
-                let temper1 = document.querySelector(`.grid-container .temper:nth-of-type(${iter+1})`);
-                temper1.innerText = temp;
-                //let x = document.querySelector(`.temp:nth-of-type(${iter+1})`).innerText = 'x';
-                
-    
-               //let icon = document.querySelector(`.grid-container .icon:nth-of-type(${iter+1})`); 
-               //console.log(icon);
-                //icon.setAttribute('src', iconurl);
-
-                
-                if(iter === 0) { //work on this function Please !!!
-                    let tempArr = [];
-                    for(let r=1; r<limit; r++) {
-                       let temp = Math.floor(data.list[(r*4)+1].main.temp);
-                       tempArr.push(temp);
-                    }
-                    setBaseVisual(iter, visual, num, baseNum, value, tempArr);
-                }  
-
-                // Append img to upper div
-
-                let newImg = visual.querySelector(`div:nth-last-child(-n+${(num - baseNum) + 21 + 4})`);
-                let img = document.createElement('img');
-        
-                img.setAttribute('src', iconurl);
-                newImg.appendChild(img);
-
-            })
-    }
-
+            /// ABOVE HAS TO BE FIRED ONLY DURING WEBPAGE SHOWUP
+        })
 
     if((mediaQueryList.matches) || (mediaQueryPortrait.matches) || (mediaQueryPortraitHugeScreens.matches)) { // jeżeli mamy do czynienia z telefonem
 
@@ -305,6 +333,101 @@ function last() {
     //separateDays(fullDate);
 }
 
+function checkButtonsBlockingCondition(targetEl, queryData) {
+    // THIS FUNCTION SURMISES, THAT THE NUMBER OF PAGES IS MORE THAN 2 (INCLUDING STARTING ONE)
+    if(queryData.page.graph === 0 || queryData.page.graph >= (queryData.temperatures.all_temperatures.length / limit) - 1) {
+        targetEl.classList.add('inactive');
+        anime({
+            targets: targetEl,
+            duration: 400,
+            opacity: [1, 0],
+            easing: 'easeInSine',
+        })
+        return;
+    }
+    const inactiveGraphToggle = document.querySelector('.inactive');
+    if(inactiveGraphToggle) {
+        showUpToggle();
+        async function showUpToggle() {
+            const a1 = anime({
+                targets: inactiveGraphToggle,
+                duration: 400,
+                opacity: [0, 1],
+                easing: 'easeOutSine',
+            }).finished;
+            a1.then(() => {inactiveGraphToggle.classList.remove('inactive')});
+        }
+    }
+}
+
+function fillTheGraph(queryData, direction) {
+    const graphVisualHeightArr = [];
+    //console.warn(queryData.requestData)
+
+    for(let iter=0; iter<limit; iter++) {
+        //console.log((limit * queryData.page.graph) + iter, limit, queryData.page.graph, iter);
+        let fullDate = new Date(queryData.requestData.list[(limit * queryData.page.graph) + iter].dt * 1000 + ((is_daylight_saving_time? queryData.cityTimezone - 2 : queryData.cityTimezone - 1) * 3600000)).toLocaleString(0);
+
+        const resultHour = fullDate.match(/[\d][\d]:[\d][\d]:[\d][\d]$/)[0].replace(/:[\d][\d]:[\d][\d]$/, '');
+
+        const isStillDay = checkIsStillDay(resultHour, [queryData.sunriseHour, queryData.sunsetHour]);
+        document.querySelector(`.container-elem:nth-of-type(${iter+1})`).classList.remove('daytime', 'nighttime');
+        (isStillDay)? 
+            document.querySelector(`.container-elem:nth-of-type(${iter+1})`).classList.add('daytime') 
+            : document.querySelector(`.container-elem:nth-of-type(${iter+1})`).classList.add('nighttime'); 
+
+        document.querySelector(`.container-elem:nth-of-type(${iter+1}) .date-day`).textContent = fullDate.replace(/, [\d]+:[\d]+|:/g, '').replace(/[\d][\d]$/, '');
+        document.querySelector(`.container-elem:nth-of-type(${iter+1}) .date-hour`).textContent = fullDate.replace(/^[\d.,]+/, '').replace(/:[\d]+$/, '');
+        document.querySelector(`.container-elem:nth-of-type(${iter+1}) .temper`).textContent = queryData.temperatures.all_temperatures[(limit*queryData.page.graph)+iter] + '°C';
+
+        let visual = document.querySelector(`.container-elem:nth-of-type(${iter+1}) .visual`);
+        const diff_from_avg = queryData.temperatures.all_temperatures[(limit*queryData.page.graph)+iter] - queryData.temperatures.aritmetic;
+        graphVisualHeightArr.push((100 / 2) + (queryData.scala.unit * diff_from_avg)); 
+        
+        let img = visual.querySelector('.graph-icon');
+        let iconurl = `https://openweathermap.org/img/w/${queryData.requestData.list[(limit*queryData.page.graph)+iter].weather[0].icon}.png`;
+        img.setAttribute('src', iconurl);
+        img.style.bottom = `${graphVisualHeightArr[graphVisualHeightArr.length - 1]}%`;
+    }
+
+    fireAsync();
+    async function fireAsync() {
+        const allGraphIcons = (direction === 'forth')? Array.from(document.querySelectorAll('.graph-icon')) : [].concat(Array.from(document.querySelectorAll('.graph-icon')).reverse());
+        console.warn(allGraphIcons);
+        isAnimationCompleted = false;
+        const a1 = anime({
+            targets: '.visual-bar',
+            duration: function(el, i) {return graphVisualHeightArr[i] * 20},
+            height: function(el, i) {return ['0%', `${graphVisualHeightArr[i]}%`]},
+            easing: 'linear',
+        }).finished;
+
+        a1.then(() => {
+            const a2 = anime({
+                targets: allGraphIcons,
+                duration: 300,
+                delay: anime.stagger(70),
+                opacity: [0, 1],
+                easing: 'easeInSine',
+            }).finished;
+
+            a2.then(() => isAnimationCompleted = true)
+        });
+    }
+
+}
+
+function checkIsStillDay(currentHour, [startHour, endHour]) {
+    if(currentHour > startHour && currentHour <= endHour) return true;
+    return false;
+}
+
+
+function calcScala(temp_aritmetic, [temp_min, temp_max], defaultScala) {
+    if(temp_aritmetic - temp_min < defaultScala  &&  temp_max - temp_aritmetic < defaultScala) return defaultScala;
+    return Math.floor((temp_aritmetic - temp_min < temp_max - temp_aritmetic)? temp_max - temp_aritmetic : temp_aritmetic - temp_min);
+}
+
 function firstDetailed() {  // create some HTML blocks
 
     const section = document.querySelector('.detailed-info');
@@ -471,6 +594,7 @@ function setBaseVisual(iter, visual, num, baseNum, value, tempArr) {
         let allVisuals = document.querySelectorAll(`.grid-container .visual:not(:nth-of-type(1))`); //-n+21
         console.log(allVisuals);
 
+        console.log('TEMP ARR: ', tempArr);
         if(isFirstBlockDay) {
 
             visual.querySelectorAll(`div:nth-last-child(-n+21)`).forEach(div => { 
@@ -479,7 +603,7 @@ function setBaseVisual(iter, visual, num, baseNum, value, tempArr) {
 
             allVisuals.forEach((visual, index) => {
                 for(let b=0; b<tempArr.length; b++) {
-
+/*  THIS IS TEMPORARILY COMMENTED OUT, BECAUSE NEW CHANGES CAUSED ERRORS WITH THIS CODE
                     if(index % 2) {
                         visual.querySelectorAll(`div:nth-last-child(-n+${(tempArr[index] - baseNum) + 21})`) // all divs, but we actually need 21
                         .forEach(elem =>  {elem.style.background = `linear-gradient(135deg, #56cd, #6add)`}) // light
@@ -487,8 +611,7 @@ function setBaseVisual(iter, visual, num, baseNum, value, tempArr) {
                     else {
                         visual.querySelectorAll(`div:nth-last-child(-n+${(tempArr[index] - baseNum) + 21})`) // all divs, but we actually need 21
                         .forEach(elem =>  {elem.style.background = `linear-gradient(135deg, #75dd, #349d)`}) // dark 
-                    }
-                   
+                    } */
                 }
             })
         }
@@ -502,6 +625,8 @@ function setBaseVisual(iter, visual, num, baseNum, value, tempArr) {
             allVisuals.forEach((visual, index) => {
                 for(let b=0; b<tempArr.length; b++) {
 
+                    /* THIS IS TEMPORARILY COMMENTED OUT, BECAUSE NEW CHANGES CAUSED ERRORS WITH THIS CODE 
+                    
                     if(index % 2) {
                         visual.querySelectorAll(`div:nth-last-child(-n+${(tempArr[index] - baseNum) + 21})`) // all divs, but we actually need 21
                         .forEach(elem =>  {elem.style.background = `linear-gradient(135deg, #75dd, #349d)`}) // dark 
@@ -509,7 +634,7 @@ function setBaseVisual(iter, visual, num, baseNum, value, tempArr) {
                     else {
                         visual.querySelectorAll(`div:nth-last-child(-n+${(tempArr[index] - baseNum) + 21})`) // all divs, but we actually need 21
                         .forEach(elem =>  {elem.style.background = `linear-gradient(135deg, #56cd, #6add)`}) // light
-                    }
+                    } */
                 }
                 
             })

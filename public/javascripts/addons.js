@@ -1,8 +1,8 @@
 // Uzupełnić to i dodać tu także tablicę ze wszystkimi stolicami
 const hoverEffectObj = {
-    '01d' : `linear-gradient(62deg, #FBAB7EAA, #F7CE68AA)`,
+    '01d' : `linear-gradient(62deg, #FBAB7E99, #F7CE6888)`,
     '01n' : `linear-gradient(to right, #0f0c29aa, #302b63aa, #24243eaa)`,
-    '02d' : `linear-gradient(to right, #ffafbd99, #d6ae7bbb)`,
+    '02d' : `linear-gradient(to right, #ffafbd99, #d6ae7baa)`,
     '02n' : `linear-gradient(to right, #bdc3c7aa, #2c3e50aa)`,
     '03d' : `linear-gradient(135deg, #8BC6ECaa, #9599E2aa)`,
     '03n' : `linear-gradient(135deg, #8BC6ECaa, #9599E2aa)`, //the same icon as above, //// linear-gradient(to right, #4e5499, #8f9499)

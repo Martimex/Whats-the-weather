@@ -1,9 +1,9 @@
-anime({
+/* anime({
     targets: `.city-name`,
     duration: 2000,
     translateX: '5%',
 }); 
-
+ */
 const grid = document.querySelector(`.grid-container`);
 let dateBoxes = grid.querySelectorAll(`.date`); 
 let visualBoxes = grid.querySelectorAll(`.visual`);

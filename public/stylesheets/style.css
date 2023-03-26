@@ -414,6 +414,7 @@ form[name="search"] {
     border: #0000 solid .2em;
     border-radius: 7px;
     margin: 0 .4em .4em 0;
+    z-index: 20;
 }
 
 .notification-bar .title {
