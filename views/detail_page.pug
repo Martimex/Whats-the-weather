@@ -123,12 +123,82 @@ block content
                   img(class='graph-icon' alt='icon' src='')
                 div(class='temperature-box')
                   span(class='temper')
-            div(class='grid-toggle-btn toggle-prev')
+            div(class='grid-toggle-btn toggle-prev' data-action='toggle' data-action_for='prev')
               i(class='toggle-btn icon-left-open')
-            div(class='grid-toggle-btn toggle-next')
+            div(class='grid-toggle-btn toggle-next' data-action='toggle' data-action_for='next')
               i(class='toggle-btn icon-right-open')
 
-              
+        section(class='weather-table--detailed')
+          div(class='table-all')
+            table(class='table')
+              thead(class='table-legend')
+                tr
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title" data-priority='main') Date
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='date' data-priority='main')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Degrees
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='degrees')
+                        i(class="legend-item-btn icon-chart-bar item-btn-targeted" data-action='graphdraw' data-action_for='degrees')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Overcast
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='overcast')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='overcast')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Humidity
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='humidity')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='humidity')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Pressure
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='pressure')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='pressure')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Wind
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='wind')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='wind')
+              tbody(class='table-content')
+                tr 
+                  td(class='table-data-item')
+                    div
+                      p DATE
+                      p HOUR
+                  td(class='table-data-item') DEF
+                  td(class='table-data-item') GHI
+                  td(class='table-data-item') ABC
+                  td(class='table-data-item') DEF
+                  td(class='table-data-item') GHI
+                tr 
+                  td(class='table-data-item') mno 
+                  td(class='table-data-item') pqr
+                  td(class='table-data-item') mno 
+                  td(class='table-data-item') pqr
+                  td(class='table-data-item') mno 
+                  td(class='table-data-item') pqr
+                tr 
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+
         p(class='detailed-title') Detailed weather info
         section(class='detailed-info')
           div(id='catch')
