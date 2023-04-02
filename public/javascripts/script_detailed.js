@@ -570,7 +570,7 @@ function calcScala(temp_aritmetic, [temp_min, temp_max], defaultScala) {
 }
 
 function firstDetailed() {  // create some HTML blocks
-
+    return; // THIS WILL BE REMOVED DEFINITELY, JUST AFTER ALL THE UPDATES
     const section = document.querySelector('.detailed-info');
     //const detailbox = section.querySelector('.detail-box');
 
@@ -641,7 +641,7 @@ function firstDetailed() {  // create some HTML blocks
 }
 
 function lastDetailed() {
-
+    return; // THIS WILL BE REMOVED DEFINITELY, JUST AFTER ALL THE UPDATES
     for(let iter=0; iter<limit; iter++) { // iter<=0 bo na razie testujemy 1 blok
 
         fetch(url)

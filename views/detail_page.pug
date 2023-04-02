@@ -48,6 +48,60 @@ block content
                         div(class='city-sunset')
               div(class='weather-colored')
 
+        section(class='weather-table--detailed')
+          div(class='table-all')
+            table(class='table')
+              thead(class='table-legend')
+                tr
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title" data-priority='main') Date
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='date' data-priority='main')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Degrees
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='degrees')
+                        i(class="legend-item-btn icon-chart-bar item-btn-targeted" data-action='graphdraw' data-action_for='degrees')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Overcast
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='overcast')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='overcast')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Humidity
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='humidity')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='humidity')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Pressure
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='pressure')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='pressure')
+                  th(class='table-legend-item') 
+                    div(class='legend-item-contentbox')
+                      div(class="legend-item-titlebox")
+                        span(class="legend-item-title") Wind
+                      div(class='legend-item-btnbox')
+                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='wind')
+                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='wind')
+              tbody(class='table-content')
+                tr 
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+                  td(class='table-data-item')
+
         section(class='weather-graph--detailed')
           div(class='graph-all')
             div(class='grid-container')
@@ -128,76 +182,6 @@ block content
             div(class='grid-toggle-btn toggle-next' data-action='toggle' data-action_for='next')
               i(class='toggle-btn icon-right-open')
 
-        section(class='weather-table--detailed')
-          div(class='table-all')
-            table(class='table')
-              thead(class='table-legend')
-                tr
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title" data-priority='main') Date
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='date' data-priority='main')
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title") Degrees
-                      div(class='legend-item-btnbox')
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='degrees')
-                        i(class="legend-item-btn icon-chart-bar item-btn-targeted" data-action='graphdraw' data-action_for='degrees')
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title") Overcast
-                      div(class='legend-item-btnbox')
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='overcast')
-                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='overcast')
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title") Humidity
-                      div(class='legend-item-btnbox')
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='humidity')
-                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='humidity')
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title") Pressure
-                      div(class='legend-item-btnbox')
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='pressure')
-                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='pressure')
-                  th(class='table-legend-item') 
-                    div(class='legend-item-contentbox')
-                      div(class="legend-item-titlebox")
-                        span(class="legend-item-title") Wind
-                      div(class='legend-item-btnbox')
-                        i(class="legend-item-btn icon-sort" data-action='sort' data-action_for='wind')
-                        i(class="legend-item-btn icon-chart-bar" data-action='graphdraw' data-action_for='wind')
-              tbody(class='table-content')
-                tr 
-                  td(class='table-data-item')
-                    div
-                      p DATE
-                      p HOUR
-                  td(class='table-data-item') DEF
-                  td(class='table-data-item') GHI
-                  td(class='table-data-item') ABC
-                  td(class='table-data-item') DEF
-                  td(class='table-data-item') GHI
-                tr 
-                  td(class='table-data-item') mno 
-                  td(class='table-data-item') pqr
-                  td(class='table-data-item') mno 
-                  td(class='table-data-item') pqr
-                  td(class='table-data-item') mno 
-                  td(class='table-data-item') pqr
-                tr 
-                  td(class='table-data-item')
-                  td(class='table-data-item')
-                  td(class='table-data-item')
-                  td(class='table-data-item')
-                  td(class='table-data-item')
-                  td(class='table-data-item')
 
         p(class='detailed-title') Detailed weather info
         section(class='detailed-info')
@@ -224,7 +208,41 @@ block content
             //-div(class='speed')
             //-div(class='degree')
             //-div(class='pressure')
-        footer(class='footer') What's The Weather  &copy; Martimex, 2021
+        footer(class='footer') 
+          div(class='footer-content')
+            div(class='footer-section footer-about')
+              p(class='footer-title') About the project
+              div(class='about-box') 
+                div(class='about-main')
+                  span Is it sunny today, or maybe windy? Check the weather forecast for your city and more than 500.000 others! You can also lookup for the current weather if necessary.
+                  img(class='author-logo' src='/images/logo_new.svg' alt='')
+                  p(class='author-copyright') What's The Weather  &copy; Martimex, 2023
+            div(class='footer-section footer-resources')
+              p(class='footer-title') Extra resources
+              div(class='resources-box')
+                a(href='https://github.com/Martimex' target='_blank') Documentation page
+                a(href='https://github.com/Martimex' target='_blank') App changelog
+                a(href='https://github.com/Martimex' target='_blank') Terms of use
+                a(href='https://github.com/Martimex' target='_blank') Credits
+            div(class='footer-section footer-socials') 
+              p(class='footer-title') Follow me
+              div(class='socials-box')
+                div(class='social-icon')
+                  div(class='social-logo')
+                    i(class='icon-logo icon-github')
+                  p(class='social-text') Github
+                div(class='social-icon')
+                  div(class='social-logo')
+                    i(class='icon-logo icon-code')
+                  p(class='social-text') Website 
+                div(class='social-icon')
+                  div(class='social-logo')
+                    i(class='icon-logo icon-linkedin')
+                  p(class='social-text') LinkedIn
+                div(class='social-icon')
+                  div(class='social-logo')
+                    i(class='icon-logo icon-codepen')
+                  p(class='social-text') CodePen
           div(class='mobile-temporary-content') 
     div(id='query-hold') #{myCity}
         <script src='/libraries/anime/lib/anime.min.js'></script>

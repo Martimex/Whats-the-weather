@@ -46,6 +46,13 @@ body {
     overflow: auto;
 } 
 
+/* All the sections */
+section {
+    font-size: 1rem;
+    padding: 3em 0;
+    margin: 3em 0;
+}
+
 /* Our picked city in one detailed box ! */
 
 .weather-box--detailed {
@@ -156,12 +163,12 @@ body {
     width: 100%;
 }
 
-.city-lat, .city-lon, .city-countrycode, .city-timezone,
+/* .city-lat, .city-lon, .city-countrycode, .city-timezone,
 .city-date, .city-population, .city-sunrise, .city-sunset
 {
-    /* font-size: 1rem; */
+    font-size: 1rem; 
 }
-
+ */
 .country-zone {
     display: flex;
     align-items: center;
@@ -249,6 +256,8 @@ body {
     background: var(--date-night);
     border-top-color: var(--date-night);
     border-left-color: var(--date-night);
+    filter: saturate(120%);
+    backdrop-filter: blur(8px);
 }
 
 .container-elem.nighttime .visual-bar {
@@ -285,7 +294,8 @@ body {
     padding-bottom: .4em;
     height: calc(42 * 0.7em);
     position: relative;
-    border-right: .05em solid #0003;
+    border-right: .05em solid #0002;
+    backdrop-filter: blur(8px) saturate(125%);
 }
 
 .visual .visual-bar {
@@ -295,6 +305,7 @@ body {
     width: 70%;
     height: 60%;
     background: var(--default);
+    backdrop-filter: hue-rotate(125deg) saturate(125%);
 }
 
 .visual .graph-icon {
@@ -358,8 +369,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 92vw;
-    margin: 0 4vw;
+    width: 100vw;
+    /* margin: 0 2vw; */
 }
 
 table.table {
@@ -370,6 +381,7 @@ table.table {
 }
 
 thead.table-legend {
+    font-size: 1rem;
     background: var(--vis-day);
     backdrop-filter: blur(8px);
 }
@@ -443,7 +455,11 @@ tbody.table-content {
 .table-data-item {
     font-size: 1.2rem;
     padding: .5em 0;
-    border: .05em solid var(--default);
+    border: .02em dashed var(--default);
+}
+
+tbody.table-content tr:nth-child(2n) {
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* SO HERE WE HAVE THE LEGEND ITSELF  => AND WE WANT TO MAKE IT STICKY */
@@ -520,13 +536,214 @@ tbody.table-content {
 /* LASTLY, FOOTER*/
 
 .footer{
+    font-size: 1.4rem;
     text-align: center;
-    margin-top: 3rem;
-    padding: .7rem;
-    font-size: 1.4em;
-    background: #88888844;
+    margin-top: 7em;
+    padding: 1em .7em 1em .7em;
+    background: rgba(255,255,255, 0.2);
+    border-top: .3em solid rgba(255, 255, 255, 0.5);
+    border-bottom: .3em solid rgba(255, 255, 255, 0.5);
+   /*  border-left: .2em solid rgba(255, 255, 255, 0.5); */
+    backdrop-filter: blur(5px);
 }
 
+.footer-content {
+    font-size: 1rem;
+/*     display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr); */
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(3, 33.3%);
+    align-items: start;
+    /* justify-content: space-evenly; */
+}
+
+.footer-section, .footer-title {
+    font-size: 2.1rem;
+    position: relative;
+}
+
+.footer-title {
+    font-size: 2.1rem;
+    margin-bottom: 1em;
+}
+
+.footer-title::after {
+    content: '';
+    font-size: 1rem;
+    position: absolute;
+    bottom: -10%;
+    left: 30%;
+    width: 40%;
+    height: .3em;
+    background: linear-gradient(135deg,  var(--date-day), var(--date-night));
+    filter: saturate(125%);
+    border-radius: 777px;
+    box-shadow: 0 0 .1em .1em #2224;
+}
+
+.footer-about {
+/*     grid-column: 1;
+    grid-row: 1 / 2; */
+    justify-content: center;
+}
+
+.about-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-main {
+    font-size: 1.15rem;
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1em;
+    place-items: center;
+}
+
+.about-main span {
+    margin-top: .6em;
+}
+
+.author-logo {
+    border-radius: 777px;
+    width: 6.5rem;
+    backdrop-filter: blur(8px) brightness(70%);
+    filter: saturate(150%) brightness(75%);
+    background-color: #111; 
+    background-image: radial-gradient(#888d, #666a, #444c, #222e, #222f, #222e, #444c);
+    position: relative;
+    display: block;
+}
+
+.author-logo::before {
+    content: '';
+    display: block;
+    background: black;
+    width: 6rem;
+    padding: 2rem;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+}
+
+.author-copyright {
+    font-size: 1.45rem;
+    font-style: italic;
+    margin: .2em 0;
+}
+
+.footer-resources {
+/*     grid-column: 2;
+    grid-row: 1; */
+    font-size: 1rem;
+    justify-content: center;
+}
+
+.resources-box {
+    font-size: 1.1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.resources-box a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin: .4em;
+    font-weight: 550;
+    text-decoration: underline;
+    color: #333;
+/*     background: -webkit-linear-gradient(135deg, #222, #eee7);
+    filter: contrast(120%) saturate(120%); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: .2em .2em .2em .3em var(--date-night); */
+}
+
+.resources-box a:hover {
+    color: #5b1fa3;
+    filter: saturate(130%) brightness(110%);
+    transition: all .6s ease-out;
+}
+
+.resources-box a::before {
+    content: '•->';
+}
+
+.footer-socials {
+/*     grid-column: 2;
+    grid-row: 2; */
+    justify-content: center;
+}
+
+.socials-box {
+    font-size: 1rem;
+
+/*  
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 1.2em 0;
+    grid-template-rows: auto;
+    place-items: center; */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    row-gap: 1.2em;
+    width: 80%;
+    margin: 0 10%; 
+}
+
+.social-icon {
+    display: flex;
+    flex-flow: column;
+}
+
+.social-logo {
+    font-size: 1rem;
+    color: #222;
+    background: var(--date-night); 
+    /* background: #fff2; */
+    box-shadow: 0 0 .5em .5em var(--date-night), inset 0 0 .25em .25em var(--date-night);
+    border-radius: 50%;
+    padding: 1.35em;
+    margin: .4em .4em;
+    scale: 1;
+    transition: all 550ms linear;
+}
+
+.social-logo:has(i.icon-logo):hover {
+    cursor: pointer;
+    background:  #222;
+    color: #eee;
+    box-shadow: 0 0 .5em .5em var(--date-day), inset 0 0 .25em .25em var(--date-day);
+    scale: 1.05;
+}
+
+.social-logo:has(i.icon-logo):hover ~ .social-text {
+    scale: 1.1;
+    font-weight: 900;
+}
+
+.icon-logo {
+    font-size: 1.8rem;
+    font-weight: 650;
+}
+
+.social-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: .3em;
+}
 
 /* QUERY HOLD TO KEEP IT INVISIBLE */
 #query-hold {
