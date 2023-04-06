@@ -120,7 +120,7 @@ function last() {
             // Fill in the first section (Weather box -- detailed)
 
             const main = document.querySelector('.weather-container');
-            document.querySelector('.city-name').textContent = `${data.city['name']}`;
+            //document.querySelector('.city-name').textContent = `${data.city['name']}`;
             main.querySelector('.country-city').textContent = `${data.city['name']}`;
             main.querySelector('.country-icon').setAttribute('src', `../../images/country-flags/svg/${data.city['country'].toLowerCase()}.svg`);
             main.querySelector('.city-countrycode').textContent = `${data.city['country']}`;
