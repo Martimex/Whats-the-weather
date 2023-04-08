@@ -1,13 +1,14 @@
 const citydiv = document.querySelector('#query-hold');
-const [city, unit] = [
+const [city, unit, countryCode] = [
     citydiv.dataset.city.match(/:.+$/)[0].replace(/[:"'}]/ig, ''), 
-    citydiv.dataset.unit.match(/:.+$/)[0].replace(/[:"'}]/ig, '')
+    citydiv.dataset.unit.match(/:.+$/)[0].replace(/[:"'}]/ig, ''),
+    citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"'}]/ig, ''),
 ];
-//console.log(city, unit);
+console.log(countryCode);
 let isAnimationCompleted = true;
 const temperatureUnit = getTemperatureUnit(unit);
 
-let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=d10be5670d0e6307831a8eccb6cee0ef`;
+let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&units=${unit}&appid=d10be5670d0e6307831a8eccb6cee0ef`;
 
 const queryData = { // stores everything we got from url request (initially fired, only assigned ONCE);
     requestData: '',
