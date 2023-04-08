@@ -9,5 +9,7 @@ exports.app_page = async (req, res, next) => {
 
 exports.detail_page = async (req, res, next) => {
    const queryCity = await req.params.cityname;
-   await res.render('detail_page', {title: `What's The Weather`, myCity: queryCity})
+   const queryCountryCode = await req.params.countryCode;
+   const queryUnit = await req.params.unit;
+   await res.render('detail_page', {title: `What's The Weather`, myCity: queryCity, myCountry: queryCountryCode, myUnit: queryUnit})
 };

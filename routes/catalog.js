@@ -7,6 +7,6 @@ router.get('/', all_Pages.index);
 
 router.get('/cities', all_Pages.app_page);
 
-router.get('/cities/:cityname', all_Pages.detail_page);
+router.get('/cities/:cityname,:countrycode&units=:unit', all_Pages.detail_page);
 
 module.exports = router;

@@ -1,8 +1,13 @@
 const citydiv = document.querySelector('#query-hold');
-const city = citydiv.textContent;
+const [city, unit] = [
+    citydiv.dataset.city.match(/:.+$/)[0].replace(/[:"'}]/ig, ''), 
+    citydiv.dataset.unit.match(/:.+$/)[0].replace(/[:"'}]/ig, '')
+];
+//console.log(city, unit);
 let isAnimationCompleted = true;
+const temperatureUnit = getTemperatureUnit(unit);
 
-let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=d10be5670d0e6307831a8eccb6cee0ef`;
+let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=d10be5670d0e6307831a8eccb6cee0ef`;
 
 const queryData = { // stores everything we got from url request (initially fired, only assigned ONCE);
     requestData: '',
@@ -23,11 +28,11 @@ const queryData = { // stores everything we got from url request (initially fire
         page: 0,
         values: {
             date: {aritmetic: 0, min: 0, max: 0, defaultScala: 1, unit: ''}, // WE WILL NOT USE THIS ONE, BUT DO NOT REMOVE
-            degrees: {aritmetic: 0, min: 0, max: 0, defaultScala: 16, unit: '°C'},
+            degrees: {aritmetic: 0, min: 0, max: 0, defaultScala: 16, unit: temperatureUnit},
             overcast: {aritmetic: 0, min: 0, max: 0, defaultScala: 50, unit: '%'},
             humidity: {aritmetic: 0, min: 0, max: 0, defaultScala: 50, unit: '%'},
             pressure: {aritmetic: 0, min: 0, max: 0, defaultScala: 12, unit: 'hPa'},
-            wind: {aritmetic: 0, min: 0, max: 0, defaultScala: 12, unit: 'm/s'},
+            wind: {aritmetic: 0, min: 0, max: 0, defaultScala: 15, unit: 'km/h'},
         },
     },
     table: {
@@ -113,8 +118,14 @@ function last() {
         .then(res => res.json())
         .then((data) => {
 
+            // Change the wind speed from requestData field from m/s to km/h
+            data.list.forEach(dataEl => dataEl.wind.speed = windSpeedKmHour(dataEl.wind.speed));
+
             // Assign a data to a variable initialized beforehand (it'll behave like a global storage)
             queryData.requestData = data;
+
+            //console.warn(queryData.requestData);
+
             //console.warn(queryData);
 
             // Fill in the first section (Weather box -- detailed)
@@ -160,14 +171,14 @@ function last() {
                 queryData.graph.values[`${listingArr[listing_type_no]}`].max = [].concat(...listingValues).sort((a, b) => b - a)[0];
             }
 
-            console.warn(queryData.graph.values)
+            //console.warn(queryData.graph.values)
 
             fillTheGraph('forth');
 
             /// ABOVE HAS TO BE FIRED ONLY DURING WEBPAGE SHOWUP
 
             // Now create the detailed table based on results gotten
-            console.warn(data.list)
+            //console.warn(data.list)
             generateTable(data.list/* , utc_timezone */);
         })
 
@@ -365,11 +376,11 @@ function fillTheTable(weather_list) {
         const list_values = [
             {value: wl.dt, parsers: [{name: getCorrectDate, args: [queryData.cityTimezone]}, /* {name: doNothing, args: []} */]},
             /* {value: wl.weather[0].main, parsers: [{name: doNothing, args: []}]}, */
-            {value: wl.main.temp, parsers: [{name: appendZero, args: []}, {name: addUnit, args: ['°C']}, /* {name: doNothing, args: []} */]},
+            {value: wl.main.temp, parsers: [{name: roundTheFloat, args: [2]},  {name: addUnit, args: [temperatureUnit]}, /* {name: doNothing, args: []} */]},
             {value: wl.clouds.all, parsers: [{name: addUnit, args: ['%']}]},
             {value: wl.main.humidity, parsers: [{name: addUnit, args: ['%']}]},
             {value: wl.main.pressure, parsers: [{name: addUnit, args: ['hPa']}]},
-            {value: wl.wind.speed, parsers: [{name: appendZero, args: []}, {name: addUnit, args: ['m/s']}]},
+            {value: wl.wind.speed, parsers: [{name: roundTheFloat, args: [2]},  {name: addUnit, args: ['km/h']}]},
         ];
         for(let category_no = 0; category_no < queryData.table.detailedTableColumns; category_no++) {
             let finalText = list_values[category_no].value;
@@ -380,6 +391,15 @@ function fillTheTable(weather_list) {
             const currentTd = tbody.querySelector(`tr:nth-of-type(${weather_list_item + 1}) > td.table-data-item:nth-of-type(${category_no + 1})`);
             currentTd.textContent = finalText;
         }
+    }
+}
+
+function getTemperatureUnit(unit) {
+    switch(unit) {
+        case 'metric': return '°C';
+        case 'imperial': return 'F';
+        case 'standard': return 'K';
+        default: return 'standard';
     }
 }
 
@@ -432,13 +452,13 @@ function getCorrectDate(num, [cityUTCtimezone]) {
     return new Date(+num * 1000 + ((is_daylight_saving_time? cityUTCtimezone - 2 : cityUTCtimezone - 1) * 3600000)).toLocaleString().replace(/.[\d]+,/, ' -- ').replace(/:\d+$/, '');
 }
 
-function appendZero(num) {
-    if(parseFloat(num) === parseInt(num)) { // When we have a integer type of number
-        return num + '.00';
-    } else if(num.toString().match(/[.]\d{1}$/)) { // When we have a float with one digit after dot
-        return num + '0'
-    }
-    return num;
+function roundTheFloat(num, decimal_length) {
+    return num.toFixed(decimal_length);
+}
+
+function windSpeedKmHour(num) {
+    // This function converts a numeric value of wind speed (m/s) to wind speed (km/h)
+    return (num * 3600) / 1000;
 }
 
 function addUnit(str, [unit]) {
@@ -522,7 +542,7 @@ function fillTheGraph(direction) {
 
         let visual = document.querySelector(`.container-elem:nth-of-type(${iter+1}) .visual`);
         //const diff_from_avg = queryData.temperatures.all_temperatures[(limit*queryData.graph.page)+iter] - queryData.temperatures.aritmetic; // +
-        const diff_from_avg  = getProp(queryData.requestData.list[(limit*queryData.graph.page)+iter], queryData.listing[queryData.table.graph_for]) - queryData.graph.values[queryData.table.graph_for].aritmetic;
+        const diff_from_avg  = Math.round(getProp(queryData.requestData.list[(limit*queryData.graph.page)+iter], queryData.listing[queryData.table.graph_for])) - queryData.graph.values[queryData.table.graph_for].aritmetic;
         graphVisualHeightArr.push((100 / 2) + (scalaUnit * diff_from_avg)); 
         
         let img = visual.querySelector('.graph-icon');

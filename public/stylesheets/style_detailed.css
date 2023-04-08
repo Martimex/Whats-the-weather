@@ -9,7 +9,7 @@
 * {
     text-shadow: 2px 1.5px 2px #e1e4eb;
     box-sizing: border-box;
-/*     border: 1px solid black; */
+    /*  border: 1px solid black; */
 }
 
 body {
@@ -29,7 +29,7 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     background-repeat: no-repeat;
-    width: 100vw;
+ /*    width: 100vw; */
 }
 
 /* Main span for city name */
@@ -46,11 +46,45 @@ body {
     overflow: auto;
 } 
 
+/* Paragraphs above sections */
+p.section-name {
+    text-align: center;
+    font-size: 3.1rem;
+    letter-spacing: .15em;
+    padding: max(4.5vh, 4.5vw) 0;
+    margin: max(4.5vh, 4.5vw) auto;
+}
+
+p.section-name::before, p.section-name::after {
+    content: '';
+    font-size: 1rem;
+    display: block;
+    height: 0%;
+    width: 100%;
+    padding: .25em 0;
+    border-radius: 777px;
+    display: flex;
+    align-self: center;
+    filter: saturate(75%);
+}
+
+p.section-name::before {
+  /*   margin-right: 1em;
+    margin-left: .5em; */
+    background: linear-gradient(90deg, #0007, #0005 40%, #0000 88%);
+}
+
+p.section-name::after {
+  /*   margin-left: 1em;
+    margin-right: .5em; */
+    background: linear-gradient(270deg, #0007, #0005 40%, #0000 88%);
+}
+
 /* All the sections */
 section:not(.weather-box--detailed) {
     font-size: 1rem;
-    padding: 3em 0;
-    margin: 3em 0;
+/*     padding: max(7.5vh, 7.5vw) 0;
+    margin: max(7.5vh, 7.5vw) 0; */
 }
 
 /* Our picked city in one detailed box ! */
@@ -73,7 +107,7 @@ section:not(.weather-box--detailed) {
     border-left: .4em solid rgba(255, 255, 255, 0.5); */
     background:  rgba(255, 255, 255, 0.1);
 
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 /*     box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
  */
@@ -88,7 +122,7 @@ section:not(.weather-box--detailed) {
     font-size: 1rem;
     width: 100%;
     background-image: linear-gradient(#ddd, #eee, #eee);
-    padding: .2em;
+    padding: .2em 0;
     filter: blur(2px);
 }
 
@@ -104,7 +138,7 @@ section:not(.weather-box--detailed) {
 /*     padding: 2em 0; */    
     margin: 12.5vh 10vw;
     height: 75vh;
-    width: 80vw;
+    width: 80%;
 /*     box-shadow: 0 0 5vw 15vw #0001;
  *//*     box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
  */    box-shadow: rgba(0, 0, 0, 0.25) 0px 3em 3em, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px,
@@ -433,7 +467,7 @@ section:not(.weather-box--detailed) {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
+    /* width: 100vw; */
     /* margin: 0 2vw; */
 }
 
@@ -620,7 +654,7 @@ tbody.table-content tr:nth-child(2n) {
     background: rgba(255, 255, 255, 0.5);
     filter: blur(2px);
     box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 12px 12px;
-    padding: .3em;
+    padding: .3em 0;
 }
 
 .footer::before {

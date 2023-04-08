@@ -8,15 +8,15 @@ class Weather {
         this.temp = Math.round(data.main.temp);
     }
     getTemperature(unit) {
-        if(unit === 'c') return `${this.temp} °C`;
-        if(unit === 'f') return `${Math.round(this.temp * 1.8) + 32} F`;
-        if(unit === 'k') return `${this.temp + 273} K`;
+        if(unit === 'metric') return `${this.temp} °C`;
+        if(unit === 'imperial') return `${Math.round(this.temp * 1.8) + 32} F`;
+        if(unit === 'standard') return `${this.temp + 273} K`;
         return ' - ';
     }
 }
 
 const weatherArray = [];
-let temperatureUnit = 'c'
+let temperatureUnit = 'metric'
 const weatherIconCodes = ['11d', '09d', '10d', '13d', '50d', '01d', '01n', '02d', '02n', '03d', '03n', '04d', '04n'];
 const initialArr = randomize(weatherArray, 6)
     .then((resultArr) => last(resultArr))
@@ -140,9 +140,9 @@ function addCity(weatherArr) {
 
 function convertTemp(target) {
     const temperatures = {
-        'celc': 'c',
-        'fahr': 'f',
-        'kelv': 'k',
+        'celc': 'metric',
+        'fahr': 'imperial',
+        'kelv': 'standard',
     }
     document.querySelector(`.temp-${Object.keys(temperatures).find(key => temperatures[key] === temperatureUnit)}`).classList.remove('temp-chosen');
     temperatureUnit = temperatures[Object.keys(temperatures).find(el => target.classList.contains(`temp-${el}`))];
@@ -222,11 +222,14 @@ document.querySelectorAll('.clickable').forEach((a, ind) => {
 
         let parts = this.href.split('1')[0];
         let cityText = weatherArray[ind].city; // a foolproof approach !
-        let finalURL = parts + cityText;
+        let countryCode = weatherArray[ind].country;
+        let countryCodeParam = ',';
+        let unitParam = '&units=';
+        let finalURL = parts + cityText +  countryCodeParam + countryCode + unitParam + temperatureUnit;
         this.href = finalURL;
 
         //  1. Save the text variable in hidden input
-        document.querySelector('form[name="search"]').textContent = cityText;
+        //document.querySelector('form[name="search"]').textContent = `${cityText}&${temperatureUnit}`;
 
         // 2. Read the data from hidden input
         // 3. Use .submit() function to send the data to
