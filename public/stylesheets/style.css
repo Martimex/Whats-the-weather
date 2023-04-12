@@ -41,6 +41,9 @@ form[name="search"] {
     margin: 0;
     height: 80vh;
     gap: .1em;
+    /*Uncomment above lines for more adjusted spacing*/
+/*     flex-direction: column;
+    justify-content: center; */
 }
 
 .weather-container, .weather-nationality, .country-flag,
@@ -213,6 +216,10 @@ form[name="search"] {
     font-size: 1rem;
     padding: .5em;
     opacity: 0;
+}
+
+.no-clickable {
+    pointer-events: none;
 }
 
 .weather-box a {

@@ -9,7 +9,7 @@ let dateBoxes = grid.querySelectorAll(`.date`);
 let visualBoxes = grid.querySelectorAll(`.visual`);
 let temperBoxes = grid.querySelectorAll(`.temper`);
 
-showGraph(dateBoxes, visualBoxes, temperBoxes);
+//showGraph(dateBoxes, visualBoxes, temperBoxes);
 
 function showGraph(date, visual, temper) {
 

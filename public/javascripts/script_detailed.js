@@ -1,10 +1,14 @@
+/* (function(){throw new Error('Something wrong')})(); */
+
 const citydiv = document.querySelector('#query-hold');
 const [city, unit, countryCode] = [
-    citydiv.dataset.city.match(/:.+$/)[0].replace(/[:"'}]/ig, ''), 
-    citydiv.dataset.unit.match(/:.+$/)[0].replace(/[:"'}]/ig, ''),
-    citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"'}]/ig, ''),
+    citydiv.dataset.city.match(/:.+$/)[0].replace(/[:"}]/ig, ''), 
+    citydiv.dataset.unit.match(/:.+$/)[0].replace(/[:"}]/ig, ''),
+    (citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"}]/ig, '').match(/[a-zA-Z]{2}$/)[0] ) === 'aq'?
+        '' : citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"}]/ig, '').match(/[a-zA-Z]{2}$/)[0],
 ];
-console.log(countryCode);
+console.log(city, ' = ', unit, ' = ', countryCode);
+
 let isAnimationCompleted = true;
 const temperatureUnit = getTemperatureUnit(unit);
 
@@ -125,24 +129,28 @@ function last() {
             // Assign a data to a variable initialized beforehand (it'll behave like a global storage)
             queryData.requestData = data;
 
-            //console.warn(queryData.requestData);
+            console.warn(queryData.requestData);
 
             //console.warn(queryData);
 
             // Fill in the first section (Weather box -- detailed)
 
+
+            console.warn(countriesByCode);
             const main = document.querySelector('.weather-container');
             //document.querySelector('.city-name').textContent = `${data.city['name']}`;
-            main.querySelector('.country-city').textContent = `${data.city['name']}`;
-            main.querySelector('.country-icon').setAttribute('src', `../../images/country-flags/svg/${data.city['country'].toLowerCase()}.svg`);
-            main.querySelector('.city-countrycode').textContent = `${data.city['country']}`;
+            //main.querySelector('.country-city').textContent = `${data.city['name']}`;
+            main.querySelector('.country-city').textContent =  city;
+            main.querySelector('.country-icon').setAttribute('src', (data.city['country'])? `../../images/country-flags/svg/${data.city['country'].toLowerCase()}.svg` : `../../images/country-flags/svg/aq.svg`);
+            main.querySelector('.city-countrycode').textContent = `${countriesByCode[data.city['country'].toLowerCase()]} - [${data.city['country']}]`;
             main.querySelector('.city-lat').textContent = `${data.city.coord['lat']}`;
             main.querySelector('.city-lon').textContent = `${data.city.coord['lon']}`;
             const utc_timezone =  +`${data.city['timezone'] / 3600}`;
             const sunrise_time = new Date(+`${data.city['sunrise']}` * 1000 + ((is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleTimeString();
             const sunset_time = new Date(+`${data.city['sunset']}` * 1000 + ((is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleTimeString();
+            const date_now = (new Date(Date.now() + (is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleString();
             main.querySelector('.city-timezone').textContent = `UTC${(data.city['timezone'] / 3600) >= 0 ? `+${data.city['timezone'] / 3600}` : `${data.city['timezone'] / 3600}`}`;
-            main.querySelector('.city-date').textContent = `${(new Date(Date.now() + (is_daylight_saving_time? utc_timezone - 2 : utc_timezone - 1) * 3600000)).toLocaleString()}`.replace(/.[\d]+,/, ' -- ');
+            main.querySelector('.city-date').textContent = date_now.replace(/.[\d]+,/, ' -- ');
             main.querySelector('.city-population').textContent =  (!+`${data.city['population']}`)? 'Unknown' : `~ ${data.city['population']}`;
             main.querySelector('.city-sunrise').textContent = sunrise_time;
             main.querySelector('.city-sunset').textContent = sunset_time;
@@ -152,6 +160,7 @@ function last() {
             const aritmetic_temp = allTemperatures.reduce((sum, val) => {return sum + +val}, 0) / allTemperatures.length;
             const graphScala = calcScala(queryData.temperatures.aritmetic, [queryData.temperatures.min, queryData.temperatures.max], queryData.scala.default);
             const scalaUnit = (100 / 2) / graphScala; */
+            //console.log(date_now)
 
             queryData.cityTimezone = utc_timezone;
             queryData.sunriseHour = dayStartHour;
@@ -162,6 +171,10 @@ function last() {
             queryData.temperatures.max = [].concat(...allTemperatures).sort((a, b) => a - b)[allTemperatures.length - 1]
             queryData.scala.default = graphScala;
             queryData.scala.unit = scalaUnit; */
+
+            // Fill detailed table heading background based on the current daytime
+            const isStillDay = checkIsStillDay(date_now.match(/[\d][\d]:[\d][\d]:[\d][\d]$/)[0].replace(/:[\d][\d]:[\d][\d]$/, ''), [dayStartHour, dayEndHour]) 
+            document.querySelector('thead.table-legend').classList.add((isStillDay)? 'table-day' : 'table-night');
 
             // Fill graph possible values section based on queryData lisitng length
             const listingArr = Object.keys(queryData.listing);
@@ -181,6 +194,54 @@ function last() {
             // Now create the detailed table based on results gotten
             //console.warn(data.list)
             generateTable(data.list/* , utc_timezone */);
+
+            weatherBoxShowUp();
+            weatherGraphShowUp();
+            weatherTableShowUp();
+
+            async function weatherBoxShowUp() {
+                const a1 =  anime({
+                    targets: '.weather-nationality',
+                    opacity: {value: [0, 1], duration: 1200, easing: 'linear'},
+                    translateX: {value: ['-2rem', '0rem'], duration: 500, easing: 'easeInSine'},
+                }).finished;
+
+                const a2 = anime({
+                    targets: '.content-box--city',
+                    opacity: [0, 1],
+                    translateY: ['-1rem', '0rem'],
+                    easing: 'easeInSine',
+                }).finished;
+
+                a1.then(() => a2)
+            }
+
+            async function weatherGraphShowUp() {
+                await anime({
+                    targets: '.container-elem',
+                    duration: 500,
+                    delay: anime.stagger(90),
+                    opacity: [0, 1],
+                    easing: 'linear',
+                }).finished;
+
+                await anime({
+                    targets: '.toggle-next',
+                    duration: 500,
+                    opacity: [0, 1],
+                    easing: 'linear',
+                }).finished;
+            }
+
+            function weatherTableShowUp() {
+                anime({
+                    targets: '.table-all',
+                    duration: 1000,
+                    opacity: [0, 1],
+                    easing: 'linear',
+                })
+            }
+
         })
 
     if((mediaQueryList.matches) || (mediaQueryPortrait.matches) || (mediaQueryPortraitHugeScreens.matches)) { // jeżeli mamy do czynienia z telefonem
@@ -400,7 +461,7 @@ function getTemperatureUnit(unit) {
         case 'metric': return '°C';
         case 'imperial': return 'F';
         case 'standard': return 'K';
-        default: return 'standard';
+        default: return 'K';
     }
 }
 
@@ -528,7 +589,7 @@ function fillTheGraph(direction) {
     for(let iter=0; iter<limit; iter++) {
         //console.log((limit * queryData.graph.page) + iter, limit, queryData.graph.page, iter);
         let fullDate = new Date(queryData.requestData.list[(limit * queryData.graph.page) + iter].dt * 1000 + ((is_daylight_saving_time? queryData.cityTimezone - 2 : queryData.cityTimezone - 1) * 3600000)).toLocaleString(0);
-
+        //console.warn(fullDate);
         const resultHour = fullDate.match(/[\d][\d]:[\d][\d]:[\d][\d]$/)[0].replace(/:[\d][\d]:[\d][\d]$/, '');
 
         const isStillDay = checkIsStillDay(resultHour, [queryData.sunriseHour, queryData.sunsetHour]);

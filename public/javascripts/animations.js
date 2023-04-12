@@ -34,7 +34,7 @@
 });
  */
 
-let animation = anime({
+/* let animation = anime({
    // targets: '.progress',
     width: '20%',
     duration: 1000,
@@ -45,32 +45,25 @@ let animation = anime({
     },
     endDelay: 500,
     loop: true,
-});
+}); */
 
 /////////////////////
 
-const searchbox = document.querySelector('.lookup');
+//c/onst searchbox = document.querySelector('.lookup');
 
-searchbox.addEventListener('click', () => {
+//searchbox.addEventListener('click', () => {
 
-    anime({
+/*     anime({
         targets: '.main-container',  
-        duration: 3000,
+        duration: 2200,
         delay: 350,
-        opacity: function() {
-            let opacityCount = 0;
-            if(opacityCount !==100) {
-                opacityCount += 100;
-                return opacity = `${opacityCount}%`;
-            }
-        },
-        loop: false,
-    })
-     
+        opacity: [0, 1],
+        easing: 'easeOutSine',
+    })  */
    // anime({ // undone for button loading effect - same as with this bar on bottom page
       //  targets: '.lookup',
     //})
-}) 
+//}) //
 
 /////////////////////
 
@@ -79,7 +72,7 @@ searchbox.addEventListener('click', () => {
 
 // Zrobimy odpowiednik dla translateY z CSS'a na JS
 
-let weather_boxes = document.querySelector('.all');
+/* let weather_boxes = document.querySelector('.all');
 
 function weatherAnime(e, icon, cityname, temp, weather, container)  {
 
@@ -164,3 +157,4 @@ function WeatherAnimeMobile(e, icon, cityname, temp, weather, container) {
  
         }
     })
+ */

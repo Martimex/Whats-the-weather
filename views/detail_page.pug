@@ -11,14 +11,14 @@ block content
           div(class='city-info')
             div(class='weather-nationality')
               div(class='city-basics')
-                img(class='country-icon no-draggable' src="", alt="Country flag icon")
+                img(class='country-icon no-draggable' src="", alt="flag")
                 div(class='country-city')
               div(class='city-details')
                 div(class='city-about') 
                   div(class='section-title--city')
                     p(class='title--city') ABOUT
                   div(class='section-content--city')
-                    div(class='content-box--city')
+                    div(class='content-box--city first-content-box')
                       div(class='city-countrycode-def') Country:
                       div(class='city-countrycode')
                     div(class='content-box--city')
@@ -34,7 +34,7 @@ block content
                   div(class='section-title--city')
                     p(class='title--city') TODAY
                   div(class='section-content--city')
-                    div(class='content-box--city')
+                    div(class='content-box--city first-content-box')
                       div(class='city-date-def') Date: 
                       div(class='city-date')
                     div(class='content-box--city')
@@ -252,6 +252,7 @@ block content
       div(id='query-hold' data-city={myCity} data-countrycode={myCountry} data-unit={myUnit})
         
       <script src='/libraries/anime/lib/anime.min.js'></script>
+      <script src='/javascripts/addons.js'></script>
       <script src='/javascripts/script_detailed.js'></script>
       <script src='/javascripts/animations_detailed.js'></script>
     </body>

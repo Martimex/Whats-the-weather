@@ -2,7 +2,7 @@ class Weather {
     constructor(data) {
         this.id = data.id;
         this.city = data.name;
-        this.country = data.sys.country;
+        this.country = (data.sys.country)? data.sys.country : 'aq';
         this.weather_now = data.weather[0].main;
         this.weather_icon = data.weather[0].icon;
         this.temp = Math.round(data.main.temp);
@@ -103,10 +103,10 @@ function addCity(weatherArr) {
                     
                     anime({
                         targets: notify,
-                        loop: false,
-                        delay: 3000,
-                        duration: 3000,
+                        duration: 500,
+                        delay: 1400,
                         opacity: [1, 0],
+                        easing: 'easeInQuad',
                     })
 
                     return;
@@ -116,6 +116,15 @@ function addCity(weatherArr) {
             // Update the Array & update the list
             updateArr(weatherArr, newWeatherItem);
             last(weatherArr);
+            
+            // Fire only when we get a event working
+            anime({
+                targets: '.main-container',  
+                duration: 2200,
+                delay: 350,
+                opacity: [0, 1],
+                easing: 'easeOutSine',
+            }) 
         }) 
         .catch(err => {
             console.clear();
@@ -124,10 +133,10 @@ function addCity(weatherArr) {
             async function runAsync() {
                 const a1 = anime({
                     targets: notify,
-                    loop: false,
-                    delay: 3000,
-                    duration: 3000,
+                    duration: 500,
+                    delay: 1400,
                     opacity: [1, 0],
+                    easing: 'easeInQuad',
                 }).finished;
 
                 await a1.then(() => {
@@ -162,7 +171,6 @@ function convertTemp(target) {
                     opacity: [0, 1],
                     easing: 'easeOutExpo',
                 });
-
             })
         async function fadeIn() {
             await anime({
@@ -202,12 +210,13 @@ async function randomize(queryArray, el_limit) {
             queryArray.push(new Weather(data));
             capitalCities_copy.splice(rand, 1);
             let weather_container = document.querySelector(`section.weather-box:nth-of-type(${el+1})`);
-            anime({
+            const an = anime({
                 targets: weather_container,
                 duration: (1200 + el * 200),
                 opacity: [0, 1],
                 easing: 'easeInQuart',
-            })
+            }).finished;
+            an.then(() => {weather_container.classList.remove('no-clickable')})
         })
     }
     return queryArray;
@@ -225,7 +234,7 @@ document.querySelectorAll('.clickable').forEach((a, ind) => {
         let countryCode = weatherArray[ind].country;
         let countryCodeParam = ',';
         let unitParam = '&units=';
-        let finalURL = parts + cityText +  countryCodeParam + countryCode + unitParam + temperatureUnit;
+        let finalURL =  parts + cityText +  countryCodeParam + countryCode + unitParam + temperatureUnit;
         this.href = finalURL;
 
         //  1. Save the text variable in hidden input
