@@ -7,7 +7,7 @@ const [city, unit, countryCode] = [
     (citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"}]/ig, '').match(/[a-zA-Z]{2}$/)[0] ) === 'aq'?
         '' : citydiv.dataset.countrycode.match(/:.+$/)[0].replace(/[:"}]/ig, '').match(/[a-zA-Z]{2}$/)[0],
 ];
-console.log(city, ' = ', unit, ' = ', countryCode);
+//console.log(city, ' = ', unit, ' = ', countryCode);
 
 let isAnimationCompleted = true;
 const temperatureUnit = getTemperatureUnit(unit);
@@ -56,15 +56,17 @@ const queryData = { // stores everything we got from url request (initially fire
     },
 }; 
 
+/* const mediaQueryList = window.matchMedia('(max-width: 900px) and (orientation: landscape)');  // condition for mobile devices - horizontal screen
+const mediaQueryPortrait = window.matchMedia(`(max-height: 1000px) and (orientation: portrait)`); // for vertical screens
+const mediaQueryPortraitHugeScreens = window.matchMedia(`(min-height: 901px) and (orinetation: portrait)`); // for huge vertical screens */
 
-const limit = 8;
+const graphComputedStyles = window.getComputedStyle(document.querySelector('.grid-container'))
+const limit = graphComputedStyles.getPropertyValue("grid-template-columns").split(' ').length; // if a device is mobile (portrait), detailed graph will use 4 columns at once instead of 8
+//console.dir(document.querySelector('.container-elem'));
+
 const is_daylight_saving_time = true; // THIS IS IMPORTANT, SINCE IT CONTROLS THE DST FOR SUMMER / WINTER TIME. IF SET TO TRUE, A SUMMER DAYLIGHT TIME IS ENABLED
 
 let isFirstBlockDay; // is the first block representing day?
-
-const mediaQueryList = window.matchMedia('(max-width: 900px) and (orientation: landscape)');  // condition for mobile devices - horizontal screen
-const mediaQueryPortrait = window.matchMedia(`(max-height: 900px) and (orientation: portrait)`); // for vertical screens
-const mediaQueryPortraitHugeScreens = window.matchMedia(`(min-height: 901px) and (orinetation: portrait)`); // for huge vertical screens
 
 document.querySelector('.all').addEventListener('click', (e) => {
     if(!isAnimationCompleted || !e.target.dataset['action']) return;
@@ -186,7 +188,7 @@ function last() {
             }
 
             //console.warn(queryData.graph.values)
-
+            generateGraph();
             fillTheGraph('forth');
 
             /// ABOVE HAS TO BE FIRED ONLY DURING WEBPAGE SHOWUP
@@ -243,6 +245,8 @@ function last() {
             }
 
         })
+
+    return;
 
     if((mediaQueryList.matches) || (mediaQueryPortrait.matches) || (mediaQueryPortraitHugeScreens.matches)) { // jeżeli mamy do czynienia z telefonem
 
@@ -432,6 +436,7 @@ function last() {
 function fillTheTable(weather_list) {
 
     const tbody = document.querySelector('tbody.table-content');
+    document.querySelector('.legend-unit-temp').textContent = `[ ${temperatureUnit} ]`;
 
     for(let weather_list_item = 0; weather_list_item < weather_list.length; weather_list_item++) {
         const wl = weather_list[weather_list_item];
@@ -451,7 +456,12 @@ function fillTheTable(weather_list) {
             }
 
             const currentTd = tbody.querySelector(`tr:nth-of-type(${weather_list_item + 1}) > td.table-data-item:nth-of-type(${category_no + 1})`);
-            currentTd.textContent = finalText;
+            if(category_no !== 0) { currentTd.textContent = finalText; }
+            else {
+                currentTd.querySelector('.table-data-date').textContent = finalText.split('-')[0];
+                currentTd.querySelector('.table-data-hour').textContent = finalText.split('-')[finalText.split('-').length - 1];
+            }
+
         }
     }
 }
@@ -524,6 +534,7 @@ function windSpeedKmHour(num) {
 }
 
 function addUnit(str, [unit]) {
+    return str; // TEMPORARILY CHANGE, PLEASE REMOVE THIS LINE LATER ON
     return str + ' ' + unit;
 }
 
@@ -536,7 +547,7 @@ function generateTable(weather_list/* , utc_timezone */) {
     // AT THE BOTTOM OF THIS FUNCTION ADD A  fillTheTable() call !!!
     const tbody = document.querySelector('tbody.table-content');
     //console.log(weather_list, weather_list.timezone);
-    for(let i = 0; i < weather_list.length; i++) {
+    for(let i = 0; i < weather_list.length + 1; i++) { // it's generating one extra row more, which is good, bcs it adds some cool spacing at the table bottom
         const tr = document.createElement('tr');
         tbody.appendChild(tr);
         for(let category_no = 0; category_no < queryData.table.detailedTableColumns; category_no++) {
@@ -545,10 +556,52 @@ function generateTable(weather_list/* , utc_timezone */) {
             td.textContent = '';
             //td.textContent = list_values[category_no].value;
             tbody.querySelector('tr:last-child').appendChild(td);
+
+            if(category_no === 0 ) {
+                const div = document.createElement('div');
+                const [span_date, span_hour] = [document.createElement('span'), document.createElement('span')];
+                span_date.classList.add('table-data-date');
+                span_hour.classList.add('table-data-hour');
+                div.appendChild(span_date); 
+                div.appendChild(span_hour);
+                tbody.querySelector('tr:last-child td:last-child').appendChild(div);
+            }
         }
     }
     // Lastly, let's fill the generated table
     fillTheTable(weather_list);
+}
+
+function generateGraph() {
+    const gridContainer = document.querySelector('.grid-container');
+    for(let col=0; col<limit; col++) {
+        const container_elem = document.createElement('div');
+        container_elem.classList.add('container-elem');
+        const [div_date, div_visual, div_temperatureBox] = [document.createElement('div'), document.createElement('div'), document.createElement('div')];
+        div_date.classList.add('date'); 
+        div_visual.classList.add('visual');
+        div_temperatureBox.classList.add('temperature-box');
+        const [p_date_day, p_date_hour] = [document.createElement('p'), document.createElement('p')];
+        p_date_day.classList.add('date-text', 'date-day');
+        p_date_hour.classList.add('date-text', 'date-hour');
+        const [visual_bar, graph_icon] = [document.createElement('div'), document.createElement('img')];
+        visual_bar.classList.add('visual-bar');
+        graph_icon.classList.add('graph-icon'); 
+        graph_icon.alt = 'icon';
+        const temper = document.createElement('span');
+        temper.classList.add('temper');
+        // Now append items
+        container_elem.appendChild(div_date);
+            div_date.appendChild(p_date_day);
+            div_date.appendChild(p_date_hour);
+        container_elem.appendChild(div_visual);
+            div_visual.appendChild(visual_bar);
+            div_visual.appendChild(graph_icon);
+        container_elem.appendChild(div_temperatureBox);
+            div_temperatureBox.appendChild(temper);
+        // Append to main container
+        gridContainer.appendChild(container_elem);
+    }
 }
 
 function checkButtonsBlockingCondition(targetEl, queryData) {
@@ -598,7 +651,7 @@ function fillTheGraph(direction) {
             document.querySelector(`.container-elem:nth-of-type(${iter+1})`).classList.add('daytime') 
             : document.querySelector(`.container-elem:nth-of-type(${iter+1})`).classList.add('nighttime'); 
 
-        document.querySelector(`.container-elem:nth-of-type(${iter+1}) .date-day`).textContent = fullDate.replace(/, [\d]+:[\d]+|:/g, '').replace(/[\d][\d]$/, '');
+        document.querySelector(`.container-elem:nth-of-type(${iter+1}) .date-day`).textContent = (limit < 8)? fullDate.replace(/, [\d]+:[\d]+|:/g, '').replace(/[\d][\d]$/, '').replace(/.\d+$/, '') : fullDate.replace(/, [\d]+:[\d]+|:/g, '').replace(/[\d][\d]$/, '');
         document.querySelector(`.container-elem:nth-of-type(${iter+1}) .date-hour`).textContent = fullDate.replace(/^[\d.,]+/, '').replace(/:[\d]+$/, '');
         document.querySelector(`.container-elem:nth-of-type(${iter+1}) .temper`).textContent = Math.round(getProp(queryData.requestData.list[(limit*queryData.graph.page)+iter], queryData.listing[queryData.table.graph_for])) + `${queryData.graph.values[queryData.table.graph_for].unit}`; // +
 

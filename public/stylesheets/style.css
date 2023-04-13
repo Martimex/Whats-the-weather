@@ -127,7 +127,7 @@ form[name="search"] {
 
 /* Date and timing stuff  -> UPDATE: TEMP BUTTONS */
 
-.update-time {
+.temp-box {
     /*position: absolute; left: 80%; top: 10%; */
     font-size: 1.3rem;
     display: flex;
@@ -315,21 +315,14 @@ form[name="search"] {
     padding: 0;
 }
 
-.city-name {
-    font-size: 1rem;
-    white-space: nowrap; 
-/*     overflow: hidden;
-    text-overflow: fade; */
-}
-
 .weather-container:hover {
     cursor: pointer;
 }
 
 .city-name {
     transition: 0.5s;
-
-    font-size: 2em;
+    white-space: nowrap; 
+    font-size: 2rem;
     font-weight: 550;
     color: rgb(0, 0, 0);
     margin-right: .2em;
@@ -459,7 +452,7 @@ form[name="search"] {
 
 /* Mobile responsive design stuff */
 
-@media screen and (orientation: landscape) and (min-width: 500px) and (max-width: 1000px /*was 1100px*/) /* screen-reverse state */
+@media screen and (orientation: landscape) and (max-width: 1000px /*was 1100px*/) /* screen-reverse state */
 {
     html {
         font-size: 12.5px;
@@ -473,11 +466,11 @@ form[name="search"] {
         grid-template-columns:  [first] 6fr [second] 5fr;
     } */
 
-    .app-logo,.update-time, .searchbar {
+    .app-logo, .temp-box, .searchbar {
         scale: 1.1;
     }
 
-    .update-time /* .date, .time */ {  
+    .temp-box /* .date, .time */ {  
         margin: .2em;
     }
 
@@ -489,36 +482,29 @@ form[name="search"] {
         height: 80vh;
     }
 
-    .weather-box{
+    .weather-box {
         width: 30%;
-/*         padding: .5rem; */
     }
-      
-      .weather-box a {
-          text-decoration: none;
-          color: black;
-      
+
+    .weather-box a {
+        text-decoration: none;
+        color: black;
+    
     }
 
     .weather-container{
-       
-/*         padding: .5em; */
         margin: 1.5em;
         font-size: .85rem;
     }
-
-/*     .notification-bar {
-        left: 95%;
-        bottom: 24%;
-        max-width: 32%;
-    } */
 
 
     /* trzeba jeszcze wdrożyć :hovery i niektóre animacje z nimi związanymi */
 
 }
 
-@media screen and (orientation: portrait) /* normal state */
+
+
+@media screen and (orientation: portrait)  /* MOBILES, normal state */
 {
     html {
         font-size: 14px;
@@ -526,6 +512,10 @@ form[name="search"] {
 
     *:not(.grid-box, .lookup, i, #city, .notification-bar .text, .notification-bar .title, .weather-container, .flex-temp, .temp, .flex-weather, .weather) {
         overflow: auto; 
+    }
+
+    .logo-text {
+        font-size: 1.8rem;
     }
 
     .grid-box {
@@ -553,7 +543,7 @@ form[name="search"] {
         font-size: 1.3em;
     }
 
-    .update-time {
+    .temp-box {
         grid-row: 2;
         scale: 1.4;
     }
@@ -566,7 +556,7 @@ form[name="search"] {
     }
 
     .weather-box {
-        width: 70vw;
+        width: 66vw;
         /* padding: 1.2rem .5rem; */
     }
 
@@ -574,6 +564,10 @@ form[name="search"] {
         text-decoration: none;
         color: black;
     
+    }
+
+    .city-name {
+        font-size: 3.2rem;
     }
 
     .weather-container  {
@@ -605,5 +599,4 @@ form[name="search"] {
     .notification-bar > .title {
         font-size: 3rem;
     }
-
 }
