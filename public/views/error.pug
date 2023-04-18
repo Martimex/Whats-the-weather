@@ -1,9 +1,0 @@
-extends error_layout
-
-block content
-  div(class='error-all') 
-    h1= message
-    h2= error.status
-    p Sorry, we are not able to provide You a weather now ... Please restart the website and try again.
-    pre #{error.stack}
-
