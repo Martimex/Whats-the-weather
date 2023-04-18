@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public/')));
+app.use('/favicon.svg', express.static('images/favicon.svg'))
 
 app.use(expressCspHeader({
   directives: {

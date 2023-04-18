@@ -34,8 +34,6 @@ document.querySelector('.app-content').addEventListener('click', (e) =>  {
 function last(citiesArr) {
 
     for(let i=0; i<citiesArr.length; i++) {
-        // To search Dublin (Ireland), type = Dublin, ie
-        // To search Dublin (USA), type = Dublin, us
         let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
         main.querySelector('.weather-icon').setAttribute('src', `https://openweathermap.org/img/w/${citiesArr[i].weather_icon}.png`);
         main.querySelector('.country-icon').setAttribute('src', `../images/country-flags/svg/${citiesArr[i].country}.svg`);
@@ -44,8 +42,6 @@ function last(citiesArr) {
         main.querySelector('.weather-temperature').textContent = citiesArr[i].getTemperature(temperatureUnit);
         main.querySelector('.weather-colored').style.background = `${hoverEffectObj[citiesArr[i].weather_icon]}`;
 
-        //main.removeEventListener(`mouseenter`, hoverAnimate);
-        //main.addEventListener(`mouseenter`, hoverAnimate);
         main.removeEventListener(`mouseleave`, hoverAnimate);
         main.addEventListener(`mouseleave`, hoverAnimate);
 
@@ -63,19 +59,6 @@ function last(citiesArr) {
                 opacity: [1, 0],
                 easing: 'easeOutExpo',
             })
-
-            /*
-                cool combination below":
-
-                anime({
-                    targets: '.something',
-                    duration: 1100,
-                    opacity: [0, 1],
-                    scale: [0, 1],
-                    rotateY: '120deg',
-                    easing: 'easeOutExpo',
-                })
-            */
         }
     }
 }
@@ -86,11 +69,11 @@ function addCity(weatherArr) {
     const input = document.querySelector('.searchbar >  #city');
     const input_value = input.value.charAt(0).toUpperCase() + input.value.toLowerCase().slice(1);
 
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${input_value}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${input_value}&units=metric&APPID=d10be5670d0e6307831a8eccb6cee0ef`;
 
     // Grab those in case of Warning / Error Popup message
-    let notify = document.querySelector('.notification-bar');
-    let icon = document.querySelector('.notification-bar .title i');
+    const notify = document.querySelector('.notification-bar');
+    const icon = document.querySelector('.notification-bar .title i');
     
     fetch(url)
         .then(res => res.json())
@@ -238,8 +221,6 @@ document.querySelectorAll('.clickable').forEach((a, ind) => {
         this.href = finalURL;
 
         //  1. Save the text variable in hidden input
-        //document.querySelector('form[name="search"]').textContent = `${cityText}&${temperatureUnit}`;
-
         // 2. Read the data from hidden input
         // 3. Use .submit() function to send the data to
         document.querySelector('form[name="search"]').submit();

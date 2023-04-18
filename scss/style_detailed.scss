@@ -1,0 +1,1004 @@
+:root {
+    --date-day: #5ad7;  /*rgba(184, 192, 72, 0.4); or #6ad6*/
+    --vis-day: linear-gradient(135deg, #5adb, #56cb);
+    --date-night:  #75d7;/*rgba(62, 76, 201, 0.4); or #75d6*/
+    --vis-night: linear-gradient(135deg, #75db, #349b);
+    --default: #bbb7;
+}
+
+* {
+    text-shadow: 2px 1.5px 2px #e1e4eb;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+}
+
+body {
+    margin: 0 auto;
+    font-family: 'Acme', Arial, Helvetica,  Verdana, 'Lucida Sans Regular', 'Lucida Sans',  'Lucida Grande', 'Lucida Sans Unicode', Geneva,  sans-serif; 
+    overflow-x: hidden;
+}
+
+.all {
+    /* overflow-x: overlay; */ /*OVERFLOW DESTROYS SCROLL EVENT LISTENER, RATHER NOT UNCOMMENT THIS LINE*/
+    background-image: url('../images/bg.jpg');
+    background-color: lightgray; /* fallback value */
+    background-size: cover;
+    background-origin: border-box;
+    background-attachment: fixed;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+}
+
+/* Paragraphs above sections */
+p.section-name {
+    text-align: center;
+    font-size: 3.1rem;
+    letter-spacing: .15em;
+    padding: max(4.5vh, 4.5vw) 0;
+    margin: max(4.5vh, 4.5vw) auto;
+}
+
+p.section-name::before, p.section-name::after {
+    content: '';
+    font-size: 1rem;
+    display: block;
+    height: 0%;
+    width: 100%;
+    padding: .25em 0;
+    border-radius: 777px;
+    display: flex;
+    align-self: center;
+    filter: saturate(75%);
+}
+
+p.section-name::before {
+    background: linear-gradient(90deg, #0007, #0005 40%, #0000 88%);
+}
+
+p.section-name::after {
+    background: linear-gradient(270deg, #0007, #0005 40%, #0000 88%);
+}
+
+/* All the sections */
+
+section:not(.weather-box--detailed) {
+    font-size: 1rem;
+}
+
+/* Our picked city in one detailed box ! */
+
+.weather-container {
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+    background:  rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 100vh;
+    box-shadow: inset rgba(255, 255, 255, 0.45) 0px -55px 25px 25px;
+}
+
+.weather-container::after {
+    content: '';
+    font-size: 1rem;
+    width: 100%;
+    background-image: linear-gradient(#ddd, #eee, #eee);
+    padding: .2em 0;
+    filter: blur(2px);
+}
+
+.weather-nationality {
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 3fr 7fr;
+    place-items: center; 
+    margin: 12.5vh auto;
+    height: 75vh;
+    width: 80vw;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 3em 3em, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px,
+        inset rgba(255, 255, 255, 0.45) 0px 0px 3.2em 3.2em, rgba(0, 0, 0, 0.12) 0px 0px 6px 6px, rgba(0, 0, 0, 0.17) 0px 0px 13px 13px, rgba(0, 0, 0, 0.09) 0px 0px 5px 5px;
+    border-radius: 1%;
+    opacity: 0;
+}
+
+.city-basics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 1rem;
+    margin-top: 2em;
+    max-width: 80vw;
+}
+
+.city-basics::after {
+    content: '';
+    position: absolute;
+    bottom: -10%; 
+    left: 0%;
+    font-size: 1rem;
+    width: 100%;
+    border-bottom: solid .3em rgba(255, 255, 255, 0.35);
+}
+
+.country-icon {
+    background: #222;
+    box-shadow: 0 0 .5rem .1rem #000;
+    border-radius: 10%;
+    font-size: 5rem;
+    max-height: 4.5vw;
+    max-height: 12vh;
+    filter: saturate(80%);
+    margin-left: 5vw;
+}
+
+.country-city {
+    font-size: 4.2rem;
+    margin: 0 5vw;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.country-city::-webkit-scrollbar, .city-countrycode::-webkit-scrollbar, .city-date::-webkit-scrollbar {
+    width: .01rem;               /* width of the entire scrollbar */
+}
+
+.country-city::-webkit-scrollbar-track, .city-countrycode::-webkit-scrollbar-track, .city-date::-webkit-scrollbar-track {
+    background: none;        /* color of the tracking area */
+}
+
+.country-city::-webkit-scrollbar-thumb, .city-countrycode::-webkit-scrollbar-thumb, .city-date::-webkit-scrollbar-thumb {
+    background-color: transparent;    /* color of the scroll thumb */
+    border-radius: 777px;       /* roundness of the scroll thumb */
+    border: .35rem solid #ddd7;  /* creates padding around scroll thumb */
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    padding: 0;
+}
+
+.city-countrycode, .city-date {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.city-details {
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: auto;
+    width: 90%;
+    margin-bottom: 2em;
+}
+
+.city-about, .city-today {
+    font-size: 2rem;
+    display: flex;
+    flex-flow: column;
+    margin: .5em 1em;
+}
+
+.section-title--city {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.section-title--city::before, .section-title--city::after {
+    content: '';
+    font-size: 1rem;
+    display: block;
+    height: 0%;
+    width: 100%;
+    padding: .15em 0;
+    border-radius: 777px;
+    display: flex;
+    align-self: center;
+}
+
+.section-title--city::before {
+    margin-right: 1em;
+    margin-left: .5em;
+    background: linear-gradient(90deg, #000d, #0008 50%, #0000 92%);
+}
+
+.section-title--city::after {
+    margin-left: 1em;
+    margin-right: .5em;
+    background: linear-gradient(270deg, #000d, #0008 50%, #0000 92%);
+}
+
+.title--city {
+    z-index: 2;
+    filter: (100%);
+    background: #fff0;
+    font-size: 3rem;
+    margin: .5em  0 .5em 0;
+    letter-spacing: .1em;
+}
+
+.section-content--city {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.content-box--city {
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.first-content-box {
+    height: 2em;
+    max-height: 2em;
+    font-weight: 600;
+}
+
+.city-countrycode-def, .city-date-def {
+    margin-right: .4em;
+}
+
+/* Long-term weather forecast box */
+
+.weather-graph--detailed {
+    font-size: 1rem;
+    margin: 3em 0;
+    position: relative;
+}
+
+.graph-all {
+    position: relative;
+}
+
+.grid-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: #eee1;
+    height: 78.5%;
+}
+
+.inactive {
+    pointer-events: none;
+}
+
+.grid-toggle-btn:hover, .toggle-btn:hover {
+    cursor: pointer;
+}
+
+.toggle-prev {
+    top: 12.5%;
+    left: 0;
+}
+
+.toggle-next {
+    top: 12.5%;
+    right: 0;
+}
+
+.toggle-btn {
+    pointer-events: none;
+    font-size: 3.6rem;
+    filter: saturate(130%) brightness(90%);
+}
+
+.icon-left-open {
+    color: var(--date-night)
+}
+
+.icon-right-open {
+    color: var(--date-day);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr; 
+    column-gap: 0;
+    max-width: 100vw;
+}
+
+.container-elem, .toggle-next, .content-box--city, .table-all {
+    opacity: 0; /* will be animated back to 1 */
+}
+
+.container-elem.daytime .date {
+    background: var(--date-day);
+    border-top-color: var(--date-day);
+    border-left-color: var(--date-day);
+}
+
+.container-elem.daytime .visual-bar {
+    background: var(--vis-day)
+}
+
+.container-elem.nighttime .date{
+    background: var(--date-night);
+    border-top-color: var(--date-night);
+    border-left-color: var(--date-night);
+    filter: saturate(120%);
+    backdrop-filter: blur(8px);
+}
+
+.container-elem.nighttime .visual-bar {
+    background: var(--vis-night)
+}
+
+.grid-container .date {
+    border: .2em solid #aaaa;
+    font-size: 1.2rem;
+    text-align: center;
+    background: var(--default);
+    border-top: .3em solid var(--default);
+    border-left: .3em solid var(--default);
+    box-shadow: .3em .3em .5em rgba(256, 256, 256, 0.5);
+}
+
+.date-day, .date-hour {
+    font-size: 1.3rem;
+    margin: .2em;
+    text-align: center;
+}
+
+.date-day {
+    font-weight: 600;
+}
+
+.grid-container .visual {
+    font-size: 1rem;
+    background: rgba(255,255,255, 0.3);
+    padding-bottom: .4em;
+    height: calc(42 * 0.7em);
+    position: relative;
+    border-right: .05em solid #0002;
+    backdrop-filter: blur(8px) saturate(125%);
+}
+
+.visual .visual-bar {
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 70%;
+    height: 60%;
+    background: var(--default);
+    backdrop-filter: hue-rotate(125deg) saturate(125%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+}
+
+.visual .graph-icon {
+    position: absolute;
+    inset: auto 0;
+    opacity: 0; /* Will be animated back to 1 */
+    scale: 1.2;
+    margin: auto;
+}
+
+.temperature-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    padding: .4em .8em;
+    border: .1em solid #000;
+    background: rgba(255,255,255, 0.1);
+    border-top: .12em solid rgba(255, 255, 255, 0.5);
+    border-left: .12em solid rgba(255, 255, 255, 0.5);
+    box-shadow: .3em .3em .5em rgba(0, 0, 0, 0.5);
+    word-break: keep-all;
+}
+
+/* New detailed table (v2) */
+
+.table-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table.table {
+    background: transparent;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+thead.table-legend {
+    font-size: 1rem;
+    background: var(--default);
+    backdrop-filter: blur(8px);
+}
+
+thead.table-day {
+    background: var(--vis-day);
+}
+
+thead.table-night {
+    background: var(--vis-night);
+}
+
+.table-legend-item {
+    font-size: 1.4rem;
+    padding: 1em 0;
+}
+
+.legend-item-contentbox {
+    font-size: 1.2rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    gap: 1em;
+}
+
+.legend-item-titlebox {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: .6em;
+    flex-flow: column;
+}
+
+.legend-item-title {
+    font-size: 1.8rem;
+}
+
+.legend-item-unit {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+[data-priority='main'] {
+    scale: 1.3;
+    margin: .3em;
+}
+
+.legend-item-btnbox {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: .5em;
+}
+
+.legend-item-btn {
+    font-size: 1.2rem;
+    padding: .1em;
+    border-radius: 50%;
+}
+
+.item-btn-targeted {
+    color: #eee;
+    font-weight: 750;
+}
+
+.legend-item-btn:hover {
+    cursor: pointer;
+}
+
+tbody.table-content {
+    background: rgba(255,255,255, 0.1);
+    border-top: .12em solid rgba(255, 255, 255, 0.5);
+    border-left: .12em solid rgba(255, 255, 255, 0.5);
+    box-shadow: .3em .3em .5em rgba(0, 0, 0, 0.5);
+}
+
+.table-data-item {
+    font-size: 1.2rem;
+    padding: .5em 0;
+    border: .02em dashed var(--default);
+}
+
+.table-data-item div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-data-item div .table-data-date::after {
+    content: ' -';
+}
+
+.table-data-item div .table-data-hour::before {
+    content: '- ';
+}
+
+tbody.table-content tr:nth-child(2n) {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* SO HERE WE HAVE THE LEGEND ITSELF  => AND WE WANT TO MAKE IT STICKY */
+
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+/* LASTLY, FOOTER*/
+
+.footer {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-top: 7em;
+    padding: 1em .7em 1em .7em;
+    background: rgba(255,255,255, 0.2);
+    backdrop-filter: blur(5px);
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    font-size: 1rem;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    filter: blur(2px);
+    box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 12px 12px;
+    padding: .3em 0;
+    top: 0%; 
+    left: 0%;
+}
+
+.footer-content {
+    font-size: 1rem;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(3, 33.3%);
+    align-items: start;
+}
+
+.footer-section, .footer-title {
+    font-size: 2.1rem;
+    position: relative;
+}
+
+.footer-title {
+    font-size: 2.1rem;
+    margin-bottom: 1em;
+}
+
+.footer-title::after {
+    content: '';
+    font-size: 1rem;
+    position: absolute;
+    bottom: -10%;
+    left: 30%;
+    width: 40%;
+    height: .3em;
+    background: linear-gradient(135deg,  var(--date-day), var(--date-night));
+    filter: saturate(125%);
+    border-radius: 777px;
+    box-shadow: 0 0 .1em .1em #2224;
+}
+
+.footer-about {
+    justify-content: center;
+}
+
+.about-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-main {
+    font-size: 1.15rem;
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1em;
+    place-items: center;
+}
+
+.about-main span {
+    margin-top: .6em;
+}
+
+.author-logo {
+    border-radius: 777px;
+    width: 6.5rem;
+    backdrop-filter: blur(8px) brightness(70%);
+    filter: saturate(150%) brightness(75%);
+    background-color: #111; 
+    background-image: radial-gradient(#888d, #666a, #444c, #222e, #222f, #222e, #444c);
+    position: relative;
+    display: block;
+}
+
+.author-logo::before {
+    content: '';
+    display: block;
+    background: black;
+    width: 6rem;
+    padding: 2rem;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+}
+
+.author-copyright {
+    font-size: 1.45rem;
+    font-style: italic;
+    margin: .2em 0;
+}
+
+.footer-resources {
+    font-size: 1rem;
+    justify-content: center;
+}
+
+.resources-box {
+    font-size: 1.1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.resources-box a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin: .4em;
+    font-weight: 550;
+    text-decoration: underline;
+    color: #333;
+}
+
+.resources-box a:hover {
+    color: #5b1fa3;
+    filter: saturate(130%) brightness(110%);
+    transition: all .6s ease-out;
+}
+
+.resources-box a::before {
+    content: '•->';
+}
+
+.footer-socials {
+    justify-content: center;
+}
+
+.socials-box {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    row-gap: 1.2em;
+    width: 80%;
+    margin: 0 10%; 
+}
+
+.social-icon {
+    display: flex;
+    flex-flow: column;
+}
+
+.social-logo {
+    font-size: 1rem;
+    color: #222;
+    background: var(--date-night); 
+    box-shadow: 0 0 .5em .5em var(--date-night), inset 0 0 .25em .25em var(--date-night);
+    border-radius: 50%;
+    padding: 1.35em;
+    margin: .4em .4em;
+    scale: 1;
+    transition: all 550ms linear;
+}
+
+.social-logo:has(i.icon-logo):hover {
+    cursor: pointer;
+    background:  #222;
+    color: #eee;
+    box-shadow: 0 0 .5em .5em var(--date-day), inset 0 0 .25em .25em var(--date-day);
+    scale: 1.05;
+}
+
+.social-logo:has(i.icon-logo):hover ~ .social-text {
+    scale: 1.1;
+    font-weight: 900;
+}
+
+.icon-logo {
+    font-size: 1.8rem;
+    font-weight: 650;
+}
+
+.social-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: .3em;
+}
+
+/* QUERY HOLD TO KEEP IT INVISIBLE */
+#query-hold {
+    display: none;
+    opacity: 0;
+}
+
+
+/* Mobile responsive design stuff */
+
+@media screen and (orientation: landscape) and (max-width: 1000px) /* screen-reverse state */
+{
+    html {
+        font-size: 11px;
+    }
+
+    .weather-nationality {
+        width: unset;
+        min-width: 80vw;
+        max-width: -moz-fit-content;
+        max-width: fit-content;
+        height: 85vh;
+        margin: 7.5vh auto;
+    }
+
+    .grid-container .visual {
+        height: calc(42 * 0.62em);
+    }
+
+    .grid-container .visual-bar {
+        /*Below lines are not working ... LOL */
+        max-height: 90%; 
+        min-height: 10%;
+    }
+
+    .visual .graph-icon {
+        scale: .75;
+        margin-bottom: -1rem;
+    }
+
+    .grid-container .temper {
+        padding: .4em .6em;
+    }
+
+}
+
+@media screen and (orientation: portrait) and (max-height: 1000px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    .weather-nationality {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 7vh 0;
+        grid-template-rows: 3fr 7fr;
+    }
+
+    .country-city {
+        font-size: 5.2rem;
+        letter-spacing: .03em;
+        margin: -1rem 1rem;
+    }
+
+    .city-basics {
+        flex-flow: column-reverse;
+        align-items: unset;
+        gap: 3vh;
+        max-height: 25vh;
+        margin-top: 0;
+    }
+
+    .city-details {
+        display: flex;
+        flex-flow: column;
+        width: 90vw;
+        margin: 0;
+        margin-top: -2vh;
+    }
+
+    .title--city {
+        font-size: 2.75rem;
+    }
+
+    .content-box--city {
+        font-size: 1.8rem;
+    }
+
+    .country-icon {
+        margin-left: 0;
+        max-width: 60vw;
+        align-self: center;
+    }
+
+    p.section-name {
+        font-size: 3.8rem;
+        padding: max(6vh, 6vw) 0;
+        margin: max(6vh, 6vw) auto;
+    }
+
+    .table-legend-item {
+        padding: 1em .25em;
+    }
+
+    .legend-item-title {
+        font-size: 1.25rem;
+        margin-left: .1em;
+        margin-right: .1em;
+        font-weight: 500;
+    }
+
+    .legend-item-unit {
+        font-size: 1rem;
+    }
+
+    .table-data-item div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+    }
+    
+    .table-data-item div .table-data-date::after {
+        content: '';
+    }
+    
+    .table-data-item div .table-data-hour::before {
+        content: '';
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(5, 20vw);
+    }
+
+    .grid-container .visual {
+        height: calc(42 * 0.6em);
+    }
+
+    .grid-container .visual .visual-bar {
+        margin: 0;
+    }
+
+    .visual .graph-icon {
+        scale: .9;
+    }
+
+    .temperature-box {
+        padding: .2em;
+    }
+
+    .grid-container .temper {
+        padding: .2rem .2rem;
+        margin: .6em 0;
+    }
+
+    .footer {
+        padding: 1em .3em;
+    }
+
+    .footer-content {
+        display: block;
+    }
+
+    .resources-box {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .resources-box a {
+        margin: .75em;
+    }
+
+    .about-main span {
+        font-size: 1.4rem;
+    }
+
+    .about-main {
+        width: 90%;
+    }
+    
+}
+
+@media screen and (orientation: portrait) and (min-height: 620px) and (min-width: 620px) {
+    html {
+        font-size: 14px;
+    }
+
+    .country-city::-webkit-scrollbar, .city-countrycode::-webkit-scrollbar, .city-date::-webkit-scrollbar {
+        width: .1rem;               /* width of the entire scrollbar */
+    }
+
+    .weather-nationality {
+        margin: 7.5vh 10vw;
+        width: 80vw;
+        height: 85vh;
+        padding: 5vh 0;
+        grid-template-rows: 3fr 7fr;
+    }
+
+    .country-city {
+        font-size: 5.8rem;
+        letter-spacing: .03em;
+        margin: -1rem 5vw;
+    }
+
+    .city-basics {
+        flex-flow: column-reverse;
+        align-items: unset;
+        gap: 3vh;
+        max-height: 25vh;
+        margin-top: 0;
+    }
+
+    .city-details {
+        display: flex;
+        flex-flow: column;
+        margin: 0;
+        max-width: 70vw;
+    }
+
+    .title--city {
+        font-size: 3rem;
+    }
+
+    .content-box--city {
+        font-size: 2rem;
+    }
+
+    .country-icon {
+        margin-left: 0;
+        max-width: 60vw;
+        align-self: center;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(5, 20vw);
+    }
+
+    .table-data-item div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+    }
+    
+    .table-data-item div .table-data-date::after {
+        content: '';
+    }
+    
+    .table-data-item div .table-data-hour::before {
+        content: '';
+    }
+
+    /* FOOTER */
+
+    .footer {
+        padding: 1em .3em;
+    }
+
+    .footer-content {
+        display: block;
+    }
+
+    .resources-box {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .resources-box a {
+        margin: .75em;
+    }
+
+    .about-main span {
+        font-size: 1.4rem;
+    }
+
+    .about-main {
+        width: 90%;
+    }
+}
