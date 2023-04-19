@@ -212,7 +212,7 @@ document.querySelectorAll('.clickable').forEach((a, ind) => {
     a.addEventListener('click', function (e) {
         e.stopPropagation();
 
-        let parts = this.href.split('1')[0];
+        let parts = (this.href.split('1').length > 1)? this.href.split('1')[0] : this.href.split('cities')[0] + 'cities/';
         let cityText = weatherArray[ind].city; // a foolproof approach !
         let countryCode = weatherArray[ind].country;
         let countryCodeParam = ',';
