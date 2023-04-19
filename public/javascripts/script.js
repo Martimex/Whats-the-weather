@@ -36,7 +36,7 @@ function last(citiesArr) {
     for(let i=0; i<citiesArr.length; i++) {
         let main = document.querySelector(`.main-container > section:nth-child(${i+1}) > a > .weather-container`);
         main.querySelector('.weather-icon').setAttribute('src', `https://openweathermap.org/img/w/${citiesArr[i].weather_icon}.png`);
-        main.querySelector('.country-icon').setAttribute('src', `../images/country-flags/svg/${citiesArr[i].country}.svg`);
+        main.querySelector('.country-icon').setAttribute('src', `../images/country-flags/svg/${citiesArr[i].country.toLowerCase()}.svg`);
         main.querySelector('.city-name').textContent = citiesArr[i].city;
         main.querySelector('.weather-description').textContent = citiesArr[i].weather_now;
         main.querySelector('.weather-temperature').textContent = citiesArr[i].getTemperature(temperatureUnit);
