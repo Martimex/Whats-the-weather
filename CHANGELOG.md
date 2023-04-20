@@ -8,12 +8,21 @@
 
 <br><hr>
 
+**[2.0.2] Add links source inside footer**
+<br>
+_20.04.2023_
+
+Footer 'extras' section receive an update, which makes links redirecting
+to a desired website sources. Those are: documentation page, website
+changelog, terms of use and credits page - in respective order.
+
+<br><hr>
 
 **[2.0.1] Minor bug solving for mobile devices**
 <br>
 _19.04.2023_
 
-(No descriptionn provided)
+(No description provided)
 
 <br><hr>
 
