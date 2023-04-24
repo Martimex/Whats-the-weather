@@ -8,6 +8,21 @@
 
 <br><hr>
 
+
+**[2.0.3] Correct layout for mobile devices**
+<br>
+_24.04.2023_
+
+A follow-up, minor layout change for main (landing) page - mobiles.
+This patch contains an improvement for portrait oriented mobile screens:
+
+- Changed the 'stretchy' row, where both temperature boxes and searchbar
+were placed. They were taking too much space, causing the row to
+overflow the available viewport width. The sections now have their own
+rows, enabling them to be more flexible and scalable.
+
+<br><hr>
+
 **[2.0.2] Add links source inside footer**
 <br>
 _20.04.2023_
