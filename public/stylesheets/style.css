@@ -56,7 +56,7 @@ form[name=search] {
 /*  Flex holding container */
 .grid-box {
   display: grid;
-  grid-template-columns: [first] 9fr [second] 5fr [third] 9fr;
+  grid-template-columns: [first] 33% [second] 34% [third] 33%;
   justify-items: center;
   align-items: center;
   height: 20vh;
@@ -392,38 +392,45 @@ form[name=search] {
     overflow: auto;
   }
   .logo-text {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin: 0.5em 0 0 0;
   }
   .grid-box {
-    height: 20vh;
-    grid-template-columns: [first] 5fr [second] 5fr;
-    grid-template-rows: [r1] 1fr [r2] 1fr;
-    margin: 0;
+    min-height: 22vh;
+    /*         grid-template-columns: [first] 5fr [second] 5fr;
+            grid-template-rows: [r1] 50% [r2] 50%;
+            margin: 0; */
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+    place-items: center;
+    margin-bottom: 3vh;
   }
   .app-logo {
     grid-row: 1;
-    grid-column: 1/3;
+    /* grid-column: 1 / 3; */
     scale: 2.5;
   }
   .searchbar {
     display: flex;
     flex-wrap: nowrap;
     justify-items: end;
-    grid-row: 2;
-    scale: 1.6;
+    scale: 2;
+    grid-row: 3;
   }
   .searchbar > input {
     font-size: 1.3em;
   }
   .temp-box {
     grid-row: 2;
-    scale: 1.4;
+    scale: 1.75;
+    margin: 1.1vh;
+    /* padding: .3em; */
   }
   .main-container {
     display: flex;
     gap: 0.2em;
     place-items: center;
-    height: 80vh;
+    min-height: 75vh;
   }
   .weather-box {
     width: 66vw;
