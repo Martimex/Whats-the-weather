@@ -9,7 +9,7 @@
 - [OpenWeatherMap](https://openweathermap.org/)
 - [SASS](https://sass-lang.com/)
 - [Fontello](https://fontello.com/)
-- [Cyclic (hosting provider)](https://www.cyclic.sh/)
+- [Glitch (hosting provider)](https://glitch.com/)
 
 <hr>
 
