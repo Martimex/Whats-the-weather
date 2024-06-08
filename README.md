@@ -40,7 +40,9 @@ Over time, the website was not getting pretty much any new patches, which kept i
 
 ## Walkthrough
 
-**The website is available under this URL address:**  https://wtweather.cyclic.app/
+**The website is available under this URL address:** https://wtweather.glitch.me/
+
+**Please note that the project might take some time to load. It is not dependent on the app itself, but rather on the Hosting Provider regulations.**
 
 Once you visit ‘What’s The Weather’ website, you should see the main control panel - very similar to this one:
 
